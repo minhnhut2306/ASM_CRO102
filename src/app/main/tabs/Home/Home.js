@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {sanpham} from '../../data/Data';
-import { chau } from '../../data/Data';
+import {chau} from '../../data/Data';
 import SectionView from '../../../multiComponent/SectionView';
 
 const Home = () => {
@@ -42,12 +42,26 @@ const Home = () => {
           </View>
         </View>
         <SectionView title="Cây trồng" data={sanpham}></SectionView>
-        <View style={styles.footer}>
-          <Text style={styles.textfooter}>Xem thêm cây trồng</Text>
+        <View style={styles.seemore}>
+          <Text style={styles.textseemore}>Xem thêm cây trồng</Text>
         </View>
         <SectionView title="Chậu cây trồng" data={chau}></SectionView>
-        <View style={styles.footer}>
-          <Text style={styles.textfooter}>Xem thêm chậu cây trồng</Text>
+        <View style={styles.seemore}>
+          <Text style={styles.textseemore}>Xem thêm chậu cây trồng</Text>
+        </View>
+        {/* phần cuối */}
+        <View style={styles.contaics}>
+          <Text style={styles.textcs}>Combo chăm sóc (mới)</Text>
+        </View>
+        <View style={styles.contaifooter}>
+          <View style={styles.contenfooter}>
+            <Text style={styles.textfooter}>Lemon Balm Grow Kit </Text>
+            <Text style={styles.textfooter2}>
+              Gồm: hạt giống Lemon Balm, gói đất hữu cơ, chậu Planta, marker
+              đánh dấu...
+            </Text>
+          </View>
+          <Image style={styles.imagefooter} source={require('../../../../../assets/images/grow.png')} />
         </View>
       </View>
     </ScrollView>
@@ -60,6 +74,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    backgroundColor: '#FFFFFF',
   },
   textheader: {
     width: 223,
@@ -100,7 +115,8 @@ const styles = StyleSheet.create({
   imgHeader: {
     position: 'absolute',
     end: 0,
-    top: 24,
+    top: 0,
+    bottom: -10,
     end: 25,
     width: 48,
     height: 48,
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#221F1F',
     position: 'absolute',
-    marginTop: 21,
+    marginTop: 15,
     start: 25,
   },
   topHeader: {
@@ -130,7 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     paddingHorizontal: 25,
-    marginTop: 31,
+    marginTop: 20,
   },
   header: {
     width: '100%',
@@ -151,10 +167,10 @@ const styles = StyleSheet.create({
     marginEnd: 4,
     marginLeft: '50%',
   },
-  footer:{
+  seemore: {
     marginTop: 10,
     marginBottom: 15,
-    marginLeft:10,
+    marginLeft: 10,
     width: 327,
     height: 25,
     paddingHorizontal: 4,
@@ -162,14 +178,74 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
-  textfooter: {
+  textseemore: {
     color: '#221f1f',
     fontSize: 16,
     fontWeight: '500',
     width: '100%',
     textAlign: 'right',
-    lineHeight:20,
+    lineHeight: 20,
     fontStyle: 'normal',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+  },
+  contaics: {
+    marginTop: 0,
+    marginBottom: 10,
+    marginLeft: 20,
+    width: 327,
+    height: 49,
+    paddingHorizontal: 4,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  textcs: {
+    color: '#221f1f',
+    fontSize: 24,
+    fontWeight: '500',
+    width: '100%',
+    textAlign: 'left',
+    fontFamily: 'Lato',
+    lineHeight: 34,
+    fontStyle: 'normal',
+  },
+  contaifooter: {
+    flexDirection: 'row',
+    bottom: 0,
+    width: 327,
+    marginLeft: 20,
+    backgroundColor: '#E8E8E8',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  contenfooter: {
+    width: 217,
+    height: 137,
+    flexDirection: 'column',
+    paddingVertical: 24,
+    paddingHorizontal: 17,
+  },
+  textfooter: {
+    width: 155,
+    color: '#221f1f',
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: 'Lato',
+    lineHeight: 22,
+    fontStyle: 'normal',
+  },
+  textfooter2: {
+    color: '#221f1f',
+    fontSize: 14,
+    fontWeight: '400',
+    fontFamily: 'Lato',
+    lineHeight: 20,
+    fontStyle: 'normal',
+  },
+  imagefooter:{
+    width: 110,
+    height: 138,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   }
 });
