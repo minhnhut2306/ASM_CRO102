@@ -7,10 +7,10 @@ import Notification from './tabs/Notification/Notification';
 import Search from './tabs/Search/Search';
 
 const tabIcons = {
-  Home: require('../../../assets/images/home.png'),
-  Search: require('../../../assets/images/search.png'),
-  Favorite: require('../../../assets/images/bell.png'),
-  Notification: require('../../../assets/images/user.png'),
+  Home: require('../../../assets/icons/home.png'),
+  Search: require('../../../assets/icons/search.png'),
+  Favorite: require('../../../assets/icons/bell.png'),
+  Notification: require('../../../assets/icons/user.png'),
 };
 
 const MainTabNavigation = () => {

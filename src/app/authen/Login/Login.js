@@ -92,8 +92,8 @@ const Login = props => {
             <Image
               source={
                 rememnerMe
-                  ? require('../../../../assets/images/isRemember.png')
-                  : require('../../../../assets/images/notRemember.png')
+                  ? require('../../../../assets/icons/isRemember.png')
+                  : require('../../../../assets/icons/notRemember.png')
               }
               style={styles.icRemember}
             />
@@ -124,13 +124,13 @@ const Login = props => {
         <View style={styles.loginOtherContainer}>
           <TouchableOpacity style={styles.btnGoogle}>
             <Image
-              source={require('../../../../assets/images/google.png')}
+              source={require('../../../../assets/icons/google.png')}
               style={styles.imgGoogle}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnFacebook}>
             <Image
-              source={require('../../../../assets/images/facebook.png')}
+              source={require('../../../../assets/icons/facebook.png')}
               style={styles.imgFacebook}
             />
           </TouchableOpacity>

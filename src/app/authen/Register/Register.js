@@ -137,13 +137,13 @@ const Register = props => {
         <View style={styles.loginOtherContainer}>
           <TouchableOpacity style={styles.btnGoogle}>
             <Image
-              source={require('../../../../assets/images/google.png')}
+              source={require('../../../../assets/icons/google.png')}
               style={styles.imgGoogle}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnFacebook}>
             <Image
-              source={require('../../../../assets/images/facebook.png')}
+              source={require('../../../../assets/icons/facebook.png')}
               style={styles.imgFacebook}
             />
           </TouchableOpacity>

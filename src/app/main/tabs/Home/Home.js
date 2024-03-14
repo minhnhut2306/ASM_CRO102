@@ -30,13 +30,13 @@ const Home = () => {
             </Text>
             <TouchableOpacity style={styles.imgHeader}>
               <Image
-                source={require('../../../../../assets/images/home.png')}
+                source={require('../../../../../assets/icons/cart.png')}
               />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.newProduct}>
               <Image
-                source={require('../../../../../assets/images/arrow-right.png')}
+                source={require('../../../../../assets/icons/arrow-right.png')}
               />
             </TouchableOpacity>
           </View>

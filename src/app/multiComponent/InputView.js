@@ -61,11 +61,11 @@ const InputView = (props) => {
                     <View>
                         {hide ? (
                             <TouchableOpacity onPress={hideShow}>
-                                <Image source={require('../../../assets/images/hidePassword.png')} style={styles.showPassword} />
+                                <Image source={require('../../../assets/icons/hidePassword.png')} style={styles.showPassword} />
                             </TouchableOpacity>
                         ) : (
                             <TouchableOpacity onPress={hideShow}>
-                                <Image source={require('../../../assets/images/showPassword.png')} style={styles.showPassword} />
+                                <Image source={require('../../../assets/icons/showPassword.png')} style={styles.showPassword} />
                             </TouchableOpacity>
                         )}
                     </View>
