@@ -1,7 +1,7 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 
 import Home from './tabs/Home/Home';
 import Account from './tabs/Account/Account';
@@ -17,8 +17,8 @@ const tabIcons = {
   Notification: require('../../../assets/icons/user.png'),
 };
 
-const tabScreenOptions = ({ route }) => ({
-  tabBarIcon: ({ focused }) => {
+const tabScreenOptions = ({route}) => ({
+  tabBarIcon: ({focused}) => {
     const iconSource = tabIcons[route.name];
     return (
       <Image
@@ -46,10 +46,11 @@ const MainTabNavigation = () => {
 };
 
 const Stack = createNativeStackNavigator();
-
+import Productdetails from './stacks/Details/Productdetails';
 const MainStackNavigation = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Productdetails" component={Productdetails} />
       <Stack.Screen name="MainTabNavigation" component={MainTabNavigation} />
     </Stack.Navigator>
   );
