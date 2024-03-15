@@ -9,45 +9,30 @@ import {
 import React, {useState} from 'react';
 import CustomHeader from '../../../multiComponent/CostomHeader';
 import {SliderBox} from 'react-native-image-slider-box';
+import {useNavigation} from '@react-navigation/native';
+
 import styles from './styles';
-const Productdetails = () => {
-  const images = [
-    'https://khuonmaucongcnc.com.vn/upload/images/cay-tai-loc.jpg',
-    // 'https://i0.wp.com/hapigo.vn/wp-content/uploads/2022/09/Optimized-chau-cay-canh.jpg',
-    // 'https://afamilycdn.com/2019/5/25/6116244723020600167876335959760434553683968o-15586804658031280324369-1558754708290704057746.jpg',
-  ];
-  const [currentImage, setCurrentImage] = useState(0);
+const Productdetails = ({route}) => {
+  const {name, image, type, mony,size, origin,status} = route.params;
+  const navigation = useNavigation();
+  // const images = [
+  //   'https://khuonmaucongcnc.com.vn/upload/images/cay-tai-loc.jpg',
+  //   // 'https://i0.wp.com/hapigo.vn/wp-content/uploads/2022/09/Optimized-chau-cay-canh.jpg',
+  //   // 'https://afamilycdn.com/2019/5/25/6116244723020600167876335959760434553683968o-15586804658031280324369-1558754708290704057746.jpg',
+  // ];
+  // const images = [image];
 
-  const handleLeftButtonPress = () => {
-    console.log('Left button pressed');
-
-    if (currentImage > 0) {
-      setCurrentImage(currentImage - 1);
-    } else {
-      setCurrentImage(images.length - 1);
-    }
-  };
-
-  const handleRightButtonPress = () => {
-    console.log('Right button pressed');
-    if (currentImage < images.length - 1) {
-      setCurrentImage(currentImage + 1);
-    } else {
-      setCurrentImage(0);
-    }
-  };
   return (
     <ScrollView>
       <View style={styles.container}>
         <CustomHeader
           leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
-          title={'Spider Plant'}
+          title={name}
           rightIcon={require('../../../../../assets/icons/cart.png')}
         />
         <View style={styles.contentContainer}>
           <View style={styles.contaisliderbox}>
-            <SliderBox
-              key={currentImage}
+            {/* <SliderBox
               images={images}
               sliderBoxHeight={270}
               sliderBoxWidth={337}
@@ -67,17 +52,18 @@ const Productdetails = () => {
               circleLoop
               resizeMode="stretch"
               resizeMethod="auto"
-              currentImageEmitter={index => setCurrentImage(index)}
-            />
+              // currentImageEmitter={index => setCurrentImage(index)}
+            /> */}
+            <Image style={styles.headerimage} source={image} resizeMode='cover'/>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={handleLeftButtonPress}>
+            <TouchableOpacity>
               <Image
                 source={require('../../../../../assets/icons/chevronleft.jpg')}
                 style={styles.buttonIcon}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleRightButtonPress}>
+            <TouchableOpacity>
               <Image
                 source={require('../../../../../assets/icons/chevron-right.png')}
                 style={styles.buttonIcon}
@@ -91,12 +77,12 @@ const Productdetails = () => {
               <Text style={styles.textbuttontree}>Cây trồng</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.bottontree}>
-              <Text style={styles.textbuttontree}>Ưa bóng</Text>
+              <Text style={styles.textbuttontree}>{type}</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.contentext}>
-          <Text style={styles.mony}>250.000đ</Text>
+          <Text style={styles.mony}>{mony}</Text>
         </View>
         <View style={styles.contenchitiet}>
           <View style={styles.contaichitiet}>
@@ -106,7 +92,7 @@ const Productdetails = () => {
             style={{width: '100%', height: 1, backgroundColor: 'black'}}></View>
           <View style={styles.contaichitiet}>
             <Text style={styles.textkc}>Kích cỡ</Text>
-            <Text style={styles.textkc}>Nhỏ</Text>
+            <Text style={styles.textkc}>{size}</Text>
           </View>
           <View
             style={{
@@ -116,7 +102,7 @@ const Productdetails = () => {
             }}></View>
           <View style={styles.contaichitiet}>
             <Text style={styles.textkc}>Xuất xứ</Text>
-            <Text style={styles.textkc}>Châu Phi</Text>
+            <Text style={styles.textkc}>{origin}</Text>
           </View>
           <View
             style={{
@@ -126,7 +112,7 @@ const Productdetails = () => {
             }}></View>
           <View style={styles.contaichitiet}>
             <Text style={styles.textkc}>Tình trạng</Text>
-            <Text style={styles.textsp}>Còn 156 sp</Text>
+            <Text style={styles.textsp}>{status}</Text>
           </View>
           <View
             style={{
@@ -176,4 +162,3 @@ const Productdetails = () => {
 };
 
 export default Productdetails;
-

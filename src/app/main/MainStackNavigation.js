@@ -8,6 +8,7 @@ import Account from './tabs/Account/Account';
 import Notification from './tabs/Notification/Notification';
 import Search from './tabs/Search/Search';
 
+
 const Tab = createBottomTabNavigator();
 
 const tabIcons = {
@@ -41,6 +42,7 @@ const MainTabNavigation = () => {
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Favorite" component={Account} />
       <Tab.Screen name="Notification" component={Notification} />
+      
     </Tab.Navigator>
   );
 };

@@ -1,11 +1,23 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 const SectionView = ({title, data}) => {
+  const navigation = useNavigation();
+  const handlePress = item => {
+    navigation.navigate('Productdetails', {
+      name: item.nameTree,
+      image: item.image,
+      type : item.loai,
+      mony: item.mony,
+      size : item.size,
+      origin: item.origin,
+      status : item.status,
+    });
+  };
   const renderColumn = columnData => {
     return columnData.map((item, index) => {
       return (
-        <View key={index} style={styles.itemContainer}>
+        <TouchableOpacity key={index} style={styles.itemContainer}  onPress={() => handlePress(item)}>
           <View style={styles.contaimage}>
             <View style={styles.overlay} />
             <Image style={styles.image} source={item.image} />
@@ -16,7 +28,7 @@ const SectionView = ({title, data}) => {
             ( <Text style={styles.emptyText}></Text>)}
             <Text style={styles.texttien}>{item.mony}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
       );
     });
   };
