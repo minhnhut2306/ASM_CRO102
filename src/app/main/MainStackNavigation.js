@@ -50,8 +50,9 @@ import Productdetails from './stacks/Details/Productdetails';
 const MainStackNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
+    
+      <Stack.Screen name="MainTabNavigation" component={MainTabNavigation} />  
       <Stack.Screen name="Productdetails" component={Productdetails} />
-      <Stack.Screen name="MainTabNavigation" component={MainTabNavigation} />
     </Stack.Navigator>
   );
 };
