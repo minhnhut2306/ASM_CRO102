@@ -12,6 +12,7 @@ const SectionView = ({title, data}) => {
       size : item.size,
       origin: item.origin,
       status : item.status,
+      product : item.product,
     });
   };
   const renderColumn = columnData => {

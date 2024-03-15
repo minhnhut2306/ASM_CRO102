@@ -81,13 +81,13 @@ export default styles = StyleSheet.create({
       header: {
         width: '100%',
       },
-      // txtHangMoi: {
-      //   color: '#007537',
-      //   width: '100%',
-      //   fontSize: 16,
-      //   fontWeight: '500',
-      //   start: 25,
-      // },
+      txtHangMoi: {
+        color: '#007537',
+        width: '100%',
+        fontSize: 16,
+        fontWeight: '500',
+        start: 25,
+      },
       newProduct: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -95,7 +95,6 @@ export default styles = StyleSheet.create({
         top: 95,
         width: '100%',
         marginEnd: 4,
-        marginLeft: '50%',
       },
       seemore: {
         marginTop: 10,

@@ -34,8 +34,8 @@ const Home = () => {
                 source={require('../../../../../assets/icons/cart.png')}
               />
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.newProduct}>
+              <Text style={styles.txtHangMoi}>Xem sản phẩm mới về</Text>
               <Image
                 source={require('../../../../../assets/icons/arrow-right.png')}
               />

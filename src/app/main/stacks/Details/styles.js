@@ -25,8 +25,6 @@ export default styles = StyleSheet.create({
     position: 'relative',
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 10,
     marginTop: '30%',
     margin: 10,
@@ -262,5 +260,9 @@ export default styles = StyleSheet.create({
     color: 'white',
     lineHeight: 22,
     textTransform: 'uppercase',
+  },
+  emptyText: {
+    width: 0, 
+    height: 0, 
   },
 });

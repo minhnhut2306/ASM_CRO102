@@ -10,17 +10,42 @@ import React, {useState} from 'react';
 import CustomHeader from '../../../multiComponent/CostomHeader';
 import {SliderBox} from 'react-native-image-slider-box';
 import {useNavigation} from '@react-navigation/native';
-
 import styles from './styles';
 const Productdetails = ({route}) => {
-  const {name, image, type, mony,size, origin,status} = route.params;
+  const {name, image, type, mony, size, origin, status, product} = route.params;
+
+  const [quantity, setQuantity] = useState(0);
+  const initialPrice = mony;
+  const [temporaryTotal, setTemporaryTotal] = useState(initialPrice);
+
   const navigation = useNavigation();
   // const images = [
   //   'https://khuonmaucongcnc.com.vn/upload/images/cay-tai-loc.jpg',
   //   // 'https://i0.wp.com/hapigo.vn/wp-content/uploads/2022/09/Optimized-chau-cay-canh.jpg',
   //   // 'https://afamilycdn.com/2019/5/25/6116244723020600167876335959760434553683968o-15586804658031280324369-1558754708290704057746.jpg',
   // ];
-  // const images = [image];
+
+  const images = [image];
+
+  const handleLeftIconPress = () => {
+    navigation.goBack();
+  };
+
+  const handleRightIconPress = () => {};
+
+  const updateTemporaryTotal = newQuantity => {
+    setTemporaryTotal(initialPrice * newQuantity);
+  };
+  const handleDecreaseQuantity = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+      updateTemporaryTotal(quantity - 1);
+    }
+  };
+  const handleIncreaseQuantity = () => {
+    setQuantity(quantity + 1);
+    updateTemporaryTotal(quantity + 1);
+  };
 
   return (
     <ScrollView>
@@ -29,10 +54,12 @@ const Productdetails = ({route}) => {
           leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
           title={name}
           rightIcon={require('../../../../../assets/icons/cart.png')}
+          onPressLeftIcon={handleLeftIconPress}
+          onPressRightIcon={handleRightIconPress}
         />
         <View style={styles.contentContainer}>
           <View style={styles.contaisliderbox}>
-            {/* <SliderBox
+            <SliderBox
               images={images}
               sliderBoxHeight={270}
               sliderBoxWidth={337}
@@ -53,32 +80,32 @@ const Productdetails = ({route}) => {
               resizeMode="stretch"
               resizeMethod="auto"
               // currentImageEmitter={index => setCurrentImage(index)}
+            />
+            {/* <Image
+              style={styles.headerimage}
+              source={image}
+              resizeMode="cover"
             /> */}
-            <Image style={styles.headerimage} source={image} resizeMode='cover'/>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity>
-              <Image
-                source={require('../../../../../assets/icons/chevronleft.jpg')}
-                style={styles.buttonIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                source={require('../../../../../assets/icons/chevron-right.png')}
-                style={styles.buttonIcon}
-              />
-            </TouchableOpacity>
+            <CustomHeader
+              leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
+              rightIcon={require('../../../../../assets/icons/chevron-right.png')}
+            />
           </View>
         </View>
         <View style={styles.contaibutontree}>
           <View style={styles.contentbuttontree}>
             <TouchableOpacity style={styles.bottontree}>
-              <Text style={styles.textbuttontree}>Cây trồng</Text>
+              <Text style={styles.textbuttontree}>{product}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.bottontree}>
-              <Text style={styles.textbuttontree}>{type}</Text>
-            </TouchableOpacity>
+            {type ? (
+              <TouchableOpacity style={styles.bottontree}>
+                <Text style={styles.textbuttontree}>{type}</Text>
+              </TouchableOpacity>
+            ) : (
+              <Text style={styles.emptyText}></Text>
+            )}
           </View>
         </View>
         <View style={styles.contentext}>
@@ -126,16 +153,16 @@ const Productdetails = ({route}) => {
             <View>
               <Text style={styles.textspdachon}>Đã chọn 0 sản phẩm</Text>
               <View style={styles.contaisquare}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleDecreaseQuantity}>
                   <Image
                     source={require('../../../../../assets/icons/minus-square.png')}
                     style={styles.iconsquare}
                   />
                 </TouchableOpacity>
                 <View style={styles.contaitextsquare}>
-                  <Text style={styles.textsquare}>0</Text>
+                  <Text style={styles.textsquare}>{quantity}</Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleIncreaseQuantity}>
                   <Image
                     source={require('../../../../../assets/icons/plus-square.png')}
                     style={styles.iconsquare}
@@ -146,7 +173,7 @@ const Productdetails = ({route}) => {
             <View>
               <Text style={styles.texttamtinh}>Tạm tính</Text>
               <View style={styles.contaitientamtinh}>
-                <Text style={styles.tientamtinh}>0đ</Text>
+                <Text style={styles.tientamtinh}>{temporaryTotal}đ</Text>
               </View>
             </View>
           </View>

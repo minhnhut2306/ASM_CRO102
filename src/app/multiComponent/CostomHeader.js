@@ -1,10 +1,14 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 
-const CustomHeader = ({leftIcon, title, rightIcon}) => {
+const CustomHeader = ({ leftIcon, title, rightIcon, onPressLeftIcon, onPressRightIcon }) => {
   let renderLeftIcon, renderTitle, renderRightIcon;
   if (leftIcon) {
-    renderLeftIcon = <Image source={leftIcon} style={styles.sizeIcon} />;
+    renderLeftIcon = (
+      <TouchableOpacity onPress={onPressLeftIcon}>
+        <Image source={leftIcon} style={styles.sizeIcon} />
+      </TouchableOpacity>
+    );
   } else {
     renderLeftIcon = <View style={styles.placeholder} />;
   }
@@ -14,7 +18,11 @@ const CustomHeader = ({leftIcon, title, rightIcon}) => {
     renderTitle = <Text style={styles.placeholdertitle} />;
   }
   if (rightIcon) {
-    renderRightIcon = <Image source={rightIcon} style={styles.sizeIcon1} />;
+    renderRightIcon = (
+      <TouchableOpacity onPress={onPressRightIcon}>
+        <Image source={rightIcon} style={styles.sizeIcon} />
+      </TouchableOpacity>
+    );
   } else {
     renderRightIcon = <View style={styles.placeholder} />;
   }
@@ -29,6 +37,7 @@ const CustomHeader = ({leftIcon, title, rightIcon}) => {
 
 export default CustomHeader;
 
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -37,13 +46,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   sizeIcon: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-  },
-  sizeIcon2: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
   },
   text: {
     flex: 10,
@@ -66,4 +70,5 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
+
 });

@@ -10,7 +10,7 @@ const AppNavigation = () => {
     return (
         <NavigationContainer>
             {
-                           <MainTabNavigation /> 
+                <MainTabNavigation /> 
             }
         </NavigationContainer>
     )
