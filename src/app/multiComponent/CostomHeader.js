@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   sizeIcon: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
   },
   text: {
     flex: 10,

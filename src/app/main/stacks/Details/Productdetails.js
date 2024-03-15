@@ -12,13 +12,25 @@ import {SliderBox} from 'react-native-image-slider-box';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 const Productdetails = ({route}) => {
+  const navigation = useNavigation();
   const {name, image, type, mony, size, origin, status, product} = route.params;
-
   const [quantity, setQuantity] = useState(0);
   const initialPrice = mony;
   const [temporaryTotal, setTemporaryTotal] = useState(initialPrice);
 
-  const navigation = useNavigation();
+  const handlePress = item => {
+    navigation.navigate('Cart', {
+      name: item.nameTree,
+      image: item.image,
+      type: item.type,
+      mony: item.mony,
+      size: item.size,
+      origin: item.origin,
+      status: item.status,
+      product: item.product,
+    });
+  };
+
   // const images = [
   //   'https://khuonmaucongcnc.com.vn/upload/images/cay-tai-loc.jpg',
   //   // 'https://i0.wp.com/hapigo.vn/wp-content/uploads/2022/09/Optimized-chau-cay-canh.jpg',
@@ -178,7 +190,9 @@ const Productdetails = ({route}) => {
             </View>
           </View>
           <View style={styles.contaibuttonchonmua}>
-            <TouchableOpacity style={styles.buttonchonmua}>
+            <TouchableOpacity
+              style={styles.buttonchonmua}
+              onPress={() => handlePress(route.params)}>
               <Text style={styles.textchonmua}>Chọn mua</Text>
             </TouchableOpacity>
           </View>
