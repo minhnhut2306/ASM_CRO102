@@ -6,11 +6,11 @@ import {useNavigation} from '@react-navigation/native';
 const Cart = ({route}) => {
   const navigation = useNavigation();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  const {name, image, type, mony, size, origin, status, product} = route.params;
+  const {name, image, type, mony, size, origin, status, product} =
+    route.params || {};
   const [quantity, setQuantity] = useState(0);
   const initialPrice = mony;
   const [temporaryTotal, setTemporaryTotal] = useState(initialPrice);
-
 
   const handleLeftIconPress = () => {
     navigation.goBack();
@@ -30,52 +30,66 @@ const Cart = ({route}) => {
   };
   return (
     <View style={styles.container}>
-      <CustomHeader
-        leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
-        title={name}
-        // rightIcon={require('../../../../../assets/icons/trash.png')}
-        onPressLeftIcon={handleLeftIconPress}
-      />
-      <View style={styles.contaisanpham}>
-        <View style={styles.contentsp}>
-          <CheckBox
-            style={styles.checkbox}
-            disabled={false}
-            value={toggleCheckBox}
-            onValueChange={newValue => setToggleCheckBox(newValue)}
-          />
-          <Image
-            style={styles.imagesp}
-            source={image}
-          />
-          <View style={styles.contaitextsp}>
-            <View style={{flexDirection: 'row', width: '100%'}}>
-              <Text style={styles.textnametree}>{name}</Text>
-              <Text style={{color: 'black'}}> | </Text>
-              <Text style={styles.textprice}>{type}</Text>
-            </View>
-            <Text style={styles.price}>{temporaryTotal}</Text>
-            <View style={styles.contaisquare}>
-              <TouchableOpacity style={styles.buttonsquare1} onPress={handleDecreaseQuantity}>
-                <Image
-                  source={require('../../../../../assets/icons/minus-square.png')}
-                  style={styles.iconsquare1}
-                />
-              </TouchableOpacity>
-              <View style={styles.contaitextsquare}>
-                <Text style={styles.textsquare}>{quantity}</Text>
+      {name && image && type && mony && size && origin && status && product ? (
+        <CustomHeader
+          leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
+          title={name}
+          rightIcon={require('../../../../../assets/icons/trash.png')}
+          onPressLeftIcon={handleLeftIconPress}
+        />
+      ) : (
+        <CustomHeader
+          leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
+          onPressLeftIcon={handleLeftIconPress}
+        />
+      )}
+      {name && image && type && mony && size && origin && status && product ? (
+        <View style={styles.contaisanpham}>
+          <View style={styles.contentsp}>
+            <CheckBox
+              style={styles.checkbox}
+              disabled={false}
+              value={toggleCheckBox}
+              onValueChange={newValue => setToggleCheckBox(newValue)}
+            />
+            <Image style={styles.imagesp} source={image} />
+            <View style={styles.contaitextsp}>
+              <View style={{flexDirection: 'row', width: '100%'}}>
+                <Text style={styles.textnametree}>{name}</Text>
+                <Text style={{color: 'black'}}> | </Text>
+                <Text style={styles.textprice}>{type}</Text>
               </View>
-              <TouchableOpacity style={styles.buttonsquare1} onPress={handleIncreaseQuantity}>
-                <Image
-                  source={require('../../../../../assets/icons/plus-square.png')}
-                  style={styles.iconsquare}
-                />
-              </TouchableOpacity>
-              <Text style={styles.delete}>Xóa</Text>
+              <Text style={styles.price}>{temporaryTotal}</Text>
+              <View style={styles.contaisquare}>
+                <TouchableOpacity
+                  style={styles.buttonsquare1}
+                  onPress={handleDecreaseQuantity}>
+                  <Image
+                    source={require('../../../../../assets/icons/minus-square.png')}
+                    style={styles.iconsquare1}
+                  />
+                </TouchableOpacity>
+                <View style={styles.contaitextsquare}>
+                  <Text style={styles.textsquare}>{quantity}</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.buttonsquare1}
+                  onPress={handleIncreaseQuantity}>
+                  <Image
+                    source={require('../../../../../assets/icons/plus-square.png')}
+                    style={styles.iconsquare}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.delete}>Xóa</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      ) : (
+        <View style={styles.container2}>
+          <Text style={styles.textthongbao}>Chưa có sản phẩm được chọn</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -84,8 +98,23 @@ export default Cart;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     backgroundColor: '#fff',
+  },
+  container2: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textthongbao:{
+    fontSize: 20,
+    color: '#000000',
+    marginBottom:150,
+    fontFamily: 'Poppins',
+    fontWeight: '700',
   },
   contaisanpham: {
     width: '100%',

@@ -20,7 +20,7 @@ const Productdetails = ({route}) => {
 
   const handlePress = item => {
     navigation.navigate('Cart', {
-      name: item.nameTree,
+      name: item.name,
       image: item.image,
       type: item.type,
       mony: item.mony,

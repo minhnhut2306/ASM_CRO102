@@ -48,10 +48,12 @@ const MainTabNavigation = () => {
 const Stack = createNativeStackNavigator();
 import Productdetails from './stacks/Details/Productdetails';
 import Cart from './stacks/Cart/Cart';
+import Seemore from './stacks/Seemore/Seemore';
 const MainStackNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="MainTabNavigation" component={MainTabNavigation} />
+      <Stack.Screen name="Seemore" component={Seemore} />
       <Stack.Screen name="Productdetails" component={Productdetails} />
       <Stack.Screen name="Cart" component={Cart} />
     </Stack.Navigator>

@@ -12,7 +12,8 @@ import {chau} from '../../data/Data';
 import SectionView from '../../../multiComponent/SectionView';
 import styles from './styles';
 
-const Home = () => {
+const Home = props => {
+  const {navigation} = props;
   return (
     <ScrollView
       style={{width: '100%', height: '100%'}}
@@ -29,12 +30,16 @@ const Home = () => {
             <Text style={styles.title}>
               Planta - toả sáng{`\n`}không gian nhà bạn
             </Text>
-            <TouchableOpacity style={styles.imgHeader}>
-              <Image
-                source={require('../../../../../assets/icons/cart.png')}
-              />
+            <TouchableOpacity
+              style={styles.imgHeader}
+              onPress={() => navigation.navigate('Cart')}>
+              <Image source={require('../../../../../assets/icons/cart.png')} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.newProduct}>
+            <TouchableOpacity
+              style={styles.newProduct}
+              onPress={() =>
+                navigation.navigate('Seemore', {type: 'sanphamnew'})
+              }>
               <Text style={styles.txtHangMoi}>Xem sản phẩm mới về</Text>
               <Image
                 source={require('../../../../../assets/icons/arrow-right.png')}
@@ -44,11 +49,19 @@ const Home = () => {
         </View>
         <SectionView title="Cây trồng" data={sanpham}></SectionView>
         <View style={styles.seemore}>
-          <Text style={styles.textseemore}>Xem thêm cây trồng</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Seemore', {type: 'caytrong'})}>
+            <Text style={styles.textseemore}>Xem thêm cây trồng</Text>
+          </TouchableOpacity>
         </View>
         <SectionView title="Chậu cây trồng" data={chau}></SectionView>
         <View style={styles.seemore}>
-          <Text style={styles.textseemore}>Xem thêm chậu cây trồng</Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Seemore', {type: 'chaucaytrong'})
+            }>
+            <Text style={styles.textseemore}>Xem thêm chậu cây trồng</Text>
+          </TouchableOpacity>
         </View>
         {/* phần cuối */}
         <View style={styles.contaics}>
@@ -62,7 +75,10 @@ const Home = () => {
               đánh dấu...
             </Text>
           </View>
-          <Image style={styles.imagefooter} source={require('../../../../../assets/images/grow.png')} />
+          <Image
+            style={styles.imagefooter}
+            source={require('../../../../../assets/images/grow.png')}
+          />
         </View>
       </View>
     </ScrollView>
@@ -70,4 +86,3 @@ const Home = () => {
 };
 
 export default Home;
-
