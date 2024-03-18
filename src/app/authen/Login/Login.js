@@ -49,7 +49,7 @@ const Login = props => {
     } else {
       setPasswordError('');
     }
-    
+    navigation.navigate('MainStackNavigation');
   };
   return (
     <KeyboardAwareScrollView>
@@ -86,7 +86,9 @@ const Login = props => {
             style={!!passworderror ? styles.inputError : styles.inputNormal}
             onChangeText={data => changePasswContent(data)}
           />
-          {!!passworderror && <Text style={styles.errorText}>{passworderror}</Text>}
+          {!!passworderror && (
+            <Text style={styles.errorText}>{passworderror}</Text>
+          )}
         </View>
         <View style={styles.rememberMeContainer}>
           <TouchableOpacity style={styles.rememnerMe} onPress={changeRemember}>

@@ -64,6 +64,7 @@ const Register = props => {
     } else {
       setPhoneNumberError('');
     }
+    navigation.navigate("Login")
   };
   return (
     <KeyboardAwareScrollView>

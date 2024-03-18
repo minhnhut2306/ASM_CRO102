@@ -30,7 +30,7 @@ const Cart = ({route}) => {
   };
   return (
     <View style={styles.container}>
-      {name && image && type && mony && size && origin && status && product ? (
+      {name && image  && mony && size && origin && status && product ? (
         <CustomHeader
           leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
           title={name}
@@ -43,7 +43,7 @@ const Cart = ({route}) => {
           onPressLeftIcon={handleLeftIconPress}
         />
       )}
-      {name && image && type && mony && size && origin && status && product ? (
+      {name && image && mony && size && origin && status && product ? (
         <View style={styles.contaisanpham}>
           <View style={styles.contentsp}>
             <CheckBox
