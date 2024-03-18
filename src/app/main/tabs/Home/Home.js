@@ -37,12 +37,10 @@ const Home = props => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.newProduct}
-              onPress={() =>
-                navigation.navigate('Seemreall')
-              }>
+              onPress={() => navigation.navigate('Seemreall')}>
               <Text style={styles.txtHangMoi}>Xem sản phẩm mới về</Text>
               <Image
-                source={require('../../../../../assets/icons/arrow-right.png')}
+                style={styles.iconarrow} source={require('../../../../../assets/icons/arrow-right.png')}
               />
             </TouchableOpacity>
           </View>
