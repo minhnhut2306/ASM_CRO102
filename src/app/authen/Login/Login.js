@@ -48,8 +48,9 @@ const Login = props => {
       setPasswordError('Vui lòng nhập mật khẩu');
     } else {
       setPasswordError('');
+      navigation.navigate('MainStackNavigation');
     }
-    navigation.navigate('MainStackNavigation');
+   
   };
   return (
     <KeyboardAwareScrollView>
