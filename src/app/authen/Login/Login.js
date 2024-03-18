@@ -49,6 +49,7 @@ const Login = props => {
     } else {
       setPasswordError('');
     }
+    
   };
   return (
     <KeyboardAwareScrollView>

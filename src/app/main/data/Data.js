@@ -77,8 +77,8 @@ export const chau = [
     image: require('../../../../assets/images/pots.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
-    status: 'Còn 156 chậu',  
-    product : 'Phụ kiện'
+    status: 'Còn 156 chậu',
+    product: 'Chậu cây trồng',
   },
   {
     id: 2,
@@ -88,7 +88,7 @@ export const chau = [
     size: 'Nhỏ',
     origin: 'Châu Á',
     status: 'Còn 156 chậu',
-    product : 'Phụ kiện'
+    product: 'Chậu cây trồng',
   },
   {
     id: 3,
@@ -98,7 +98,7 @@ export const chau = [
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
     status: 'Còn 156 chậu',
-    product : 'Phụ kiện'
+    product: 'Chậu cây trồng',
   },
   {
     id: 4,
@@ -108,7 +108,7 @@ export const chau = [
     size: 'Nhỏ',
     origin: 'Châu Phi',
     status: 'Còn 156 chậu',
-    product : 'Phụ kiện'
+    product: 'Phụ kiện',
   },
   {
     id: 5,
@@ -118,7 +118,7 @@ export const chau = [
     size: 'Nhỏ',
     origin: 'Châu Nam cực',
     status: 'Còn 156 chậu',
-    product : 'Phụ kiện'
+    product: 'Chậu cây trồng',
   },
   {
     id: 6,
@@ -128,7 +128,7 @@ export const chau = [
     size: 'Nhỏ',
     origin: 'Châu ÂU',
     status: 'Còn 156 chậu',
-    product : 'Phụ kiện'
+    product: 'Phụ kiện',
   },
   {
     id: 7,
@@ -138,7 +138,7 @@ export const chau = [
     size: 'Nhỏ',
     origin: 'Châu Phi',
     status: 'Còn 156 chậu',
-    product : 'Phụ kiện'
+    product: 'Phụ kiện',
   },
   {
     id: 8,
@@ -148,7 +148,155 @@ export const chau = [
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
     status: 'Còn 156 chậu',
-    product : 'Phụ kiện'
+    product: 'Phụ kiện',
+  },
+];
+
+export const all = [
+  {
+    id: 1,
+    nameTree: 'Bình tưới CB2 SAIC',
+    mony: '250000',
+    image: require('../../../../assets/images/pots4.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Phi',
+    status: 'Còn 156 chậu',
+    product: 'Phụ kiện',
+  },
+  {
+    id: 2,
+    nameTree: 'Bộ cuốc xẻng mini',
+    mony: '250000',
+    image: require('../../../../assets/images/pots6.png'),
+    size: 'Nhỏ',
+    origin: 'Châu ÂU',
+    status: 'Còn 156 chậu',
+    product: 'Phụ kiện',
+  },
+  {
+    id: 3,
+    nameTree: 'Giá đỡ Finn Terrazzo ',
+    mony: '250000',
+    image: require('../../../../assets/images/pots7.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Phi',
+    status: 'Còn 156 chậu',
+    product: 'Phụ kiện',
+  },
+  {
+    id: 4,
+    nameTree: 'Bình xịt Xiaoda  ',
+    mony: '250000',
+    image: require('../../../../assets/images/pots5.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Mĩ',
+    status: 'Còn 156 chậu',
+    product: 'Phụ kiện',
+  },
+  {
+    id: 5,
+    nameTree: 'Planta Trắng ',
+    mony: '250000',
+    image: require('../../../../assets/images/pots.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Mĩ',
+    status: 'Còn 156 chậu',
+    product: 'Chậu cây trồng',
+  },
+  {
+    id: 6,
+    nameTree: 'Planta Rosewood',
+    mony: '250000',
+    image: require('../../../../assets/images/pots2.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Á',
+    status: 'Còn 156 chậu',
+    product: 'Chậu cây trồng',
+  },
+  {
+    id: 7,
+    nameTree: 'Planta Lemon Balm',
+    mony: '250000',
+    image: require('../../../../assets/images/pots1.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Mĩ',
+    status: 'Còn 156 chậu',
+    product: 'Chậu cây trồng',
+  },
+  {
+    id: 8,
+    nameTree: 'Planta Dove Grey',
+    mony: '250000',
+    image: require('../../../../assets/images/pots3.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Nam cực',
+    status: 'Còn 156 chậu',
+    product: 'Chậu cây trồng',
+  },
+  {
+    id: 9,
+    nameTree: 'Spider Plant',
+
+    mony: '250000',
+    image: require('../../../../assets/images/tree1.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Mĩ',
+    status: 'Còn 156 cây',
+    product: 'Cây trồng',
+  },
+  {
+    id: 10,
+    nameTree: 'Song of India',
+
+    mony: '250000',
+    image: require('../../../../assets/images/tree2.png'),
+    size: 'Lớn',
+    origin: 'Châu Á',
+    status: 'Còn 156 cây',
+    product: 'Cây trồng',
+  },
+  {
+    id: 11,
+    nameTree: 'Grey Star Calarthea ',
+
+    mony: '250000',
+    image: require('../../../../assets/images/tree3.png'),
+    size: 'Lớn',
+    origin: 'Châu Phi',
+    status: 'Còn 156 cây',
+    product: 'Cây trồng',
+  },
+  {
+    id: 12,
+    nameTree: 'Banana Plant ',
+
+    mony: '250000',
+    image: require('../../../../assets/images/tree4.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Nam Cực',
+    status: 'Còn 156 cây',
+    product: 'Cây trồng',
+  },
+  {
+    id: 13,
+    nameTree: 'Song of India',
+
+    mony: '250000',
+    image: require('../../../../assets/images/tree2.png'),
+    size: 'Lớn',
+    origin: 'Bắc Cực',
+    status: 'Còn 156 cây',
+    product: 'Cây trồng',
+  },
+  {
+    id: 14,
+    nameTree: 'Grey Star Calarthea ',
+    mony: '250000',
+    image: require('../../../../assets/images/tree3.png'),
+    size: 'Nhỏ',
+    origin: 'Châu Á',
+    status: 'Còn 156 cây',
+    product: 'Cây trồng',
   },
 ];
 

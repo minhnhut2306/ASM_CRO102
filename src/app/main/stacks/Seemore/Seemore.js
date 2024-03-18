@@ -23,8 +23,6 @@ const Seemore = ({route, navigation}) => {
     selectedData = sanpham;
   } else if (type === 'chaucaytrong') {
     selectedData = chau;
-  } else if (type === 'sanphamnew') {
-    selectedData = [...chau, ...sanpham];
   }
 
   return (
@@ -50,14 +48,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: '#ffffff',
-  },
-  newProduct: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  txtHangMoi: {
-    marginRight: 10,
   },
 });
 

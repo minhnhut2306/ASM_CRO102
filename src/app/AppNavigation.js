@@ -3,14 +3,16 @@ import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import AuthenStackNavigation from './authen/AuthenStackNavigation'
 import { AppContext } from './main/AppContext'
-import MainTabNavigation from './main/MainStackNavigation'
+import MainStackNavigation from './main/MainStackNavigation'
 
 const AppNavigation = () => {
     const { isLogin } = useContext(AppContext);
     return (
         <NavigationContainer>
             {
-                <MainTabNavigation /> 
+                // isLogin ?
+                    <AuthenStackNavigation />
+                 
             }
         </NavigationContainer>
     )

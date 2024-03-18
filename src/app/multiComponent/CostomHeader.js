@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     margin: 10,
-    padding: 10,
   },
   sizeIcon: {
     width: 25,
@@ -70,5 +69,4 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-
 });

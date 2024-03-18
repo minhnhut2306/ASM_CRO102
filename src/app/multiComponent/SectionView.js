@@ -56,12 +56,10 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginLeft: 14,
-    marginTop: 15,
     marginBottom: 15,
   },
   itemContainer: {
     padding: 10,
-    marginTop: 10,
   },
   columnContainer: {
     flexDirection: 'row',

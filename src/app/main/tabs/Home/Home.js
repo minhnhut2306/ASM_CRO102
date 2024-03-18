@@ -38,7 +38,7 @@ const Home = props => {
             <TouchableOpacity
               style={styles.newProduct}
               onPress={() =>
-                navigation.navigate('Seemore', {type: 'sanphamnew'})
+                navigation.navigate('Seemreall')
               }>
               <Text style={styles.txtHangMoi}>Xem sản phẩm mới về</Text>
               <Image
