@@ -40,6 +40,8 @@ const Seemreall = ({ navigation }) => {
       <View style={styles.container}>
         <CustomHeader
           leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
+          title={"Sản phẩm"}
+          rightIcon={require('../../../../../assets/icons/cart.png')}
           onPressLeftIcon={handleLeftIconPress}
         />
         <ScrollView

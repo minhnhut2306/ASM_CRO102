@@ -20,6 +20,7 @@ export default styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 29,
+    marginBottom:30,
   },
   imgFacebook: {
     width: 32,

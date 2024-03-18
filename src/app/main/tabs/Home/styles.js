@@ -131,7 +131,7 @@ export default styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-  },b
+  },
   textcs: {
     color: '#221f1f',
     fontSize: 24,
