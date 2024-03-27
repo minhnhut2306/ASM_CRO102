@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   StatusBar,
+  Alert,
 } from 'react-native';
 import React, {useState, useContext, useEffect} from 'react';
 import {AppContext} from '../../main/AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import InputView from '../../multiComponent/InputView';
 import ButtonBig from '../../multiComponent/ButtonBig';
+import AxiosInstance from '../../api/AxiosInstance';
 import styles from './styles';
 
 const Login = props => {
@@ -39,18 +41,49 @@ const Login = props => {
     setPasswordError('');
   };
   const addData = () => {
-    if (email == '') {
-      setEmailError('Vui lòng nhập tên đăng nhập');
-    } else {
-      setEmailError('');
+    let isValid = true;
+    if (email.trim() === '') {
+      setEmailError('Vui lòng nhập email');
+      isValid = false;
     }
-    if (password == '') {
+    if (password.trim() === '') {
       setPasswordError('Vui lòng nhập mật khẩu');
-    } else {
-      setPasswordError('');
-      navigation.navigate('MainStackNavigation');
+      isValid = false;
     }
-   
+    return isValid;
+  };
+  console.log(addData)
+
+  const handleLogin = () => {
+    console.log('Bắt đầu quá trình đăng nhập');
+    if (addData()) {
+      console.log('Dữ liệu hợp lệ, tiến hành gửi yêu cầu đăng nhập');
+
+      const axiosInstance = AxiosInstance();
+      axiosInstance
+        .post('/login', {
+          email: email,
+          password: password,
+        })
+        .then((res) => {
+          console.log('Nhận kết quả từ API:', res);
+
+          if (res && res.success === 'Đăng nhập thành công') { 
+            console.log('Đăng nhập thành công');
+            Alert.alert('Đăng nhập thành công');
+            navigation.navigate('MainStackNavigation');
+          } else {
+            console.log('Đăng nhập thất bại');
+            Alert.alert('Đăng nhập thất bại');
+          }
+        })
+        .catch((err) => {
+          console.log('Lỗi khi gửi yêu cầu đăng ký:', err);
+          Alert.alert('Đăng ký thất bại');
+        });
+    } else {
+      console.log('Dữ liệu không hợp lệ, không thể gửi yêu cầu đăng ký');
+    }
   };
   return (
     <KeyboardAwareScrollView>
@@ -114,7 +147,7 @@ const Login = props => {
         <ButtonBig
           style={{paddingHorizontal: 30, marginTop: 25}}
           title="Đăng nhập"
-          onPress={addData}
+          onPress={handleLogin}
         />
 
         <View style={styles.ortherContainer}>

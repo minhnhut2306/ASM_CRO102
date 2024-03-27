@@ -1,35 +1,33 @@
+import React, {useState} from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
+  Text,
   Image,
   TouchableOpacity,
   StatusBar,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import InputView from '../../multiComponent/InputView';
 import ButtonBig from '../../multiComponent/ButtonBig';
+import AxiosInstance from '../../api/AxiosInstance';
 import styles from './styles';
 
-const Register = props => {
-  const {navigation} = props;
-  // normal
+const Register = ({navigation}) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  // error
   const [phoneNumberError, setPhoneNumberError] = useState('');
-  const [fullnameror, setFullname] = useState('');
-  const [emailerror, setEmailError] = useState('');
-  const [passworderror, setPasswordError] = useState('');
-
+  const [fullNameError, setFullNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const changeFullNameTitle = data => {
     setFullName(data);
-    setFullname('');
+    setFullNameError('');
   };
+
   const changeEmailTitle = data => {
     setEmail(data);
     setEmailError('');
@@ -39,33 +37,69 @@ const Register = props => {
     setPassword(data);
     setPasswordError('');
   };
+
   const changePhoneNumberContent = data => {
     setPhoneNumber(data);
     setPhoneNumberError('');
   };
+
   const addData = () => {
-    if (fullName == '') {
-      setFullname('Vui lòng nhập họ tên');
-    } else {
-      setFullname('');
+    let isValid = true;
+    if (fullName.trim() === '') {
+      setFullNameError('Vui lòng nhập họ tên');
+      isValid = false;
     }
-    if (email == '') {
-      setEmailError('Vui lòng nhập tên đăng nhập');
-    } else {
-      setEmailError('');
+    if (email.trim() === '') {
+      setEmailError('Vui lòng nhập email');
+      isValid = false;
     }
-    if (password == '') {
+    if (password.trim() === '') {
       setPasswordError('Vui lòng nhập mật khẩu');
-    } else {
-      setPasswordError('');
+      isValid = false;
     }
-    if (phoneNumber == '') {
+    if (phoneNumber.trim() === '') {
       setPhoneNumberError('Vui lòng nhập số điện thoại');
-    } else {
-      setPhoneNumberError('');
+      isValid = false;
     }
-    navigation.navigate("Login")
+    return isValid;
   };
+
+  const handleRegister = () => {
+    console.log('Bắt đầu quá trình đăng ký');
+
+    if (addData()) {
+      console.log('Dữ liệu hợp lệ, tiến hành gửi yêu cầu đăng ký');
+
+      const axiosInstance = AxiosInstance();
+      axiosInstance
+        .post('/register', {
+          fullName: fullName,
+          email: email,
+          password: password,
+          phoneNumber: phoneNumber,
+        })
+        .then(res => {
+          console.log('Nhận kết quả từ API:', res);
+
+          if (res && res.success === 'Đăng ký thành công!') {
+            console.log('Đăng ký thành công');
+            Alert.alert('Đăng ký thành công');
+            navigation.navigate('Login');
+          } else {
+            console.log('Đăng ký thất bại');
+            Alert.alert('Đăng ký thất bại');
+          }
+        })
+
+        .catch(err => {
+          console.log('Lỗi khi gửi yêu cầu đăng ký:', err);
+          Alert.alert('Đăng ký thất bại');
+        });
+    } else {
+      console.log('Dữ liệu không hợp lệ, không thể gửi yêu cầu đăng ký');
+    }
+  };
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -81,18 +115,20 @@ const Register = props => {
             placeholder="Họ tên"
             value={fullName}
             onTextChange={changeFullNameTitle}
-            style={!!fullnameror ? styles.inputError : styles.inputNormal}
+            style={!!fullNameError ? styles.inputError : styles.inputNormal}
             onChangeText={data => changeFullNameTitle(data)}
           />
-          {!!fullnameror && <Text style={styles.errorText}>{fullnameror}</Text>}
+          {!!fullNameError && (
+            <Text style={styles.errorText}>{fullNameError}</Text>
+          )}
           <InputView
             placeholder="E-mail"
             value={email}
             onTextChange={changeEmailTitle}
-            style={!!emailerror ? styles.inputError : styles.inputNormal}
+            style={!!emailError ? styles.inputError : styles.inputNormal}
             onChangeText={data => changeEmailTitle(data)}
           />
-          {!!emailerror && <Text style={styles.errorText}>{emailerror}</Text>}
+          {!!emailError && <Text style={styles.errorText}>{emailError}</Text>}
           <InputView
             placeholder="Số điện thoại"
             value={phoneNumber}
@@ -100,17 +136,20 @@ const Register = props => {
             style={!!phoneNumberError ? styles.inputError : styles.inputNormal}
             onChangeText={data => changePhoneNumberContent(data)}
           />
-          {!!phoneNumberError && <Text style={styles.errorText}>{phoneNumberError}</Text>}
+          {!!phoneNumberError && (
+            <Text style={styles.errorText}>{phoneNumberError}</Text>
+          )}
           <InputView
             placeholder="Mật khẩu"
             value={password}
             onTextChange={changePasswContent}
-           
-            hidePassword={true} 
-            style={!!passworderror ? styles.inputError : styles.inputNormal}
+            hidePassword={true}
+            style={!!passwordError ? styles.inputError : styles.inputNormal}
             onChangeText={data => changePasswContent(data)}
           />
-          {!!passworderror && <Text style={styles.errorText}>{passworderror}</Text>}
+          {!!passwordError && (
+            <Text style={styles.errorText}>{passwordError}</Text>
+          )}
         </View>
         <View style={styles.TermsConditions}>
           <Text style={styles.txtTermsConditions}>
@@ -125,7 +164,7 @@ const Register = props => {
         <ButtonBig
           style={styles.buttonRegister}
           title="Đăng ký"
-          onPress={(addData) }
+          onPress={handleRegister}
         />
         <View style={styles.ortherContainer}>
           <View style={styles.ortherLine} />
