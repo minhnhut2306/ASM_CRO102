@@ -71,7 +71,7 @@ const Productdetails = ({route}) => {
         />
         <View style={styles.contentContainer}>
           <View style={styles.contaisliderbox}>
-            <SliderBox
+            {/* <SliderBox
               images={images}
               sliderBoxHeight={270}
               sliderBoxWidth={337}
@@ -92,7 +92,7 @@ const Productdetails = ({route}) => {
               resizeMode="stretch"
               resizeMethod="auto"
               // currentImageEmitter={index => setCurrentImage(index)}
-            />
+            /> */}
             {/* <Image
               style={styles.headerimage}
               source={image}

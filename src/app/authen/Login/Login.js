@@ -24,9 +24,9 @@ const Login = props => {
     setRememberMe(!rememnerMe);
   };
   // normal
+  const [username, setusername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   // error
   const [emailerror, setEmailError] = useState('');
   const [passworderror, setPasswordError] = useState('');
@@ -52,39 +52,53 @@ const Login = props => {
     }
     return isValid;
   };
-  console.log(addData)
-
-  const handleLogin = () => {
-    console.log('Bắt đầu quá trình đăng nhập');
-    if (addData()) {
-      console.log('Dữ liệu hợp lệ, tiến hành gửi yêu cầu đăng nhập');
-
-      const axiosInstance = AxiosInstance();
-      axiosInstance
-        .post('/login', {
+  console.log(addData);
+const handleLogin = async () => {
+  if (addData()) {
+    const axiosInstance = AxiosInstance();
+    try {
+      if (/\S+@\S+\.\S+/.test(email)) {
+        const userRes = await axiosInstance.post('/login', {
           email: email,
           password: password,
-        })
-        .then((res) => {
-          console.log('Nhận kết quả từ API:', res);
-
-          if (res && res.success === 'Đăng nhập thành công') { 
-            console.log('Đăng nhập thành công');
-            Alert.alert('Đăng nhập thành công');
-            navigation.navigate('MainStackNavigation');
-          } else {
-            console.log('Đăng nhập thất bại');
-            Alert.alert('Đăng nhập thất bại');
-          }
-        })
-        .catch((err) => {
-          console.log('Lỗi khi gửi yêu cầu đăng ký:', err);
-          Alert.alert('Đăng ký thất bại');
         });
-    } else {
-      console.log('Dữ liệu không hợp lệ, không thể gửi yêu cầu đăng ký');
+        console.log( userRes.data);
+
+        if (userRes && userRes.success === 'Đăng nhập thành công') {
+          console.log('Đăng nhập thành công');
+          Alert.alert('Đăng nhập thành công bạn đang đăng nhập với tư cách user');
+          navigation.navigate('MainStackNavigation');
+        } else {
+          console.log('Đăng nhập thất bại');
+          Alert.alert('Đăng nhập thất bại');
+        }
+      } else {
+        const adminRes = await axiosInstance.post('/loginAdmin', {
+          username: email,
+          password: password,
+        });
+        console.log( adminRes.data);
+
+        if (adminRes && adminRes.message === 'Đăng nhập thành công') {
+          console.log('Đăng nhập thành công');
+          Alert.alert('Đăng nhập thành công bạn đang đăng nhập với tư cách admin');
+          navigation.navigate('MainStackNavigation');
+        } else {
+          console.log('Đăng nhập thất bại');
+          Alert.alert('Đăng nhập thất bại');
+        }
+      }
+    } catch (err) {
+      console.log('Lỗi khi gửi yêu cầu đăng nhập:', err);
+      Alert.alert('Đăng nhập thất bại');
     }
-  };
+  } else {
+    console.log('Không thể đăng nhập');
+  }
+};
+
+
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
@@ -103,7 +117,7 @@ const Login = props => {
           <InputView
             onTextChange={changeEmailTitle}
             value={email}
-            placeholder="Email"
+            placeholder="Email hoặt username"
             keyboardType="email-address"
             placeholderTextColor="black"
             style={!!emailerror ? styles.inputError : styles.inputNormal}

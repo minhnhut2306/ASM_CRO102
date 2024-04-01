@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import CustomHeader from '../../../multiComponent/CostomHeader';
 import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
+
 const Cart = ({route}) => {
   const navigation = useNavigation();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
@@ -30,7 +31,7 @@ const Cart = ({route}) => {
   };
   return (
     <View style={styles.container}>
-      {name && image  && mony && size && origin && status && product ? (
+      {name && image && mony && size && origin && status && product ? (
         <CustomHeader
           leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
           title={name}
@@ -44,45 +45,63 @@ const Cart = ({route}) => {
         />
       )}
       {name && image && mony && size && origin && status && product ? (
-        <View style={styles.contaisanpham}>
-          <View style={styles.contentsp}>
-            <CheckBox
-              style={styles.checkbox}
-              disabled={false}
-              value={toggleCheckBox}
-              onValueChange={newValue => setToggleCheckBox(newValue)}
-            />
-            <Image style={styles.imagesp} source={image} />
-            <View style={styles.contaitextsp}>
-              <View style={{flexDirection: 'row', width: '100%'}}>
-                <Text style={styles.textnametree}>{name}</Text>
-                <Text style={{color: 'black'}}> | </Text>
-                <Text style={styles.textprice}>{type}</Text>
-              </View>
-              <Text style={styles.price}>{temporaryTotal}</Text>
-              <View style={styles.contaisquare}>
-                <TouchableOpacity
-                  style={styles.buttonsquare1}
-                  onPress={handleDecreaseQuantity}>
-                  <Image
-                    source={require('../../../../../assets/icons/minus-square.png')}
-                    style={styles.iconsquare1}
-                  />
-                </TouchableOpacity>
-                <View style={styles.contaitextsquare}>
-                  <Text style={styles.textsquare}>{quantity}</Text>
+        <View style={{width: '100%', height: '100%'}}>
+          <View style={styles.contaisanpham}>
+            <View style={styles.contentsp}>
+              <CheckBox
+                style={styles.checkbox}
+                disabled={false}
+                value={toggleCheckBox}
+                onValueChange={newValue => setToggleCheckBox(newValue)}
+              />
+              <Image style={styles.imagesp} source={image} />
+              <View style={styles.contaitextsp}>
+                <View style={{flexDirection: 'row', width: '100%'}}>
+                  <Text style={styles.textnametree}>{name}</Text>
+                  <Text style={{color: 'black'}}> | </Text>
+                  <Text style={styles.textprice}>{type}</Text>
                 </View>
-                <TouchableOpacity
-                  style={styles.buttonsquare1}
-                  onPress={handleIncreaseQuantity}>
-                  <Image
-                    source={require('../../../../../assets/icons/plus-square.png')}
-                    style={styles.iconsquare}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.delete}>Xóa</Text>
+                <Text style={styles.price}>{temporaryTotal}</Text>
+                <View style={styles.contaisquare}>
+                  <TouchableOpacity
+                    style={styles.buttonsquare1}
+                    onPress={handleDecreaseQuantity}>
+                    <Image
+                      source={require('../../../../../assets/icons/minus-square.png')}
+                      style={styles.iconsquare1}
+                    />
+                  </TouchableOpacity>
+                  <View style={styles.contaitextsquare}>
+                    <Text style={styles.textsquare}>{quantity}</Text>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.buttonsquare1}
+                    onPress={handleIncreaseQuantity}>
+                    <Image
+                      source={require('../../../../../assets/icons/plus-square.png')}
+                      style={styles.iconsquare}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.delete}>Xóa</Text>
+                </View>
               </View>
             </View>
+          </View>
+          <View style={styles.buttonthanhtoan}>
+            <View style={styles.contentamtinh}>
+              <Text style={styles.texttamtinh}>Tạm tính</Text>
+              <Text style={styles.texttien}>500.000đ</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate('Payment')}>
+              <View style={styles.contenbton}>
+                <Text style={styles.textchonmua}>Tiến hành thanh toán</Text>
+                <Image
+                  style={styles.iconchonmua}
+                  source={require('../../../../../assets/icons/right-arrow.png')}></Image>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       ) : (
@@ -109,10 +128,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textthongbao:{
+  textthongbao: {
     fontSize: 20,
     color: '#000000',
-    marginBottom:150,
+    marginBottom: 150,
     fontFamily: 'Poppins',
     fontWeight: '700',
   },
@@ -230,5 +249,67 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonthanhtoan: {
+    width: '100%',
+    height: 'auto',
+    flexDirection: 'column',
+    top: '60%',
+    alignItems: 'center',
+  },
+  contentamtinh: {
+    width: 326,
+    height: 43,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  contenbton: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+  },
+
+  texttamtinh: {
+    lineHeight: 20,
+    fontSize: 14,
+    fontWeight: '400',
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    color: '#000',
+  },
+  texttien: {
+    lineHeight: 20,
+    fontSize: 14,
+    fontWeight: '400',
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    color: '#000',
+    textAlign: 'right',
+  },
+
+  button: {
+    backgroundColor: '#007537',
+    borderRadius: 8,
+    width: 326,
+    alignItems: 'center',
+    height: 50,
+  },
+  textchonmua: {
+    lineHeight: 20,
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    color: '#fff',
+  },
+  iconchonmua: {
+    width: 20,
+    height: 20,
+    flexShrink: 0,
   },
 });

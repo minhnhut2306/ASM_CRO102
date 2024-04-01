@@ -64,41 +64,37 @@ const Register = ({navigation}) => {
     return isValid;
   };
 
-  const handleRegister = () => {
-    console.log('Bắt đầu quá trình đăng ký');
-
-    if (addData()) {
-      console.log('Dữ liệu hợp lệ, tiến hành gửi yêu cầu đăng ký');
-
-      const axiosInstance = AxiosInstance();
-      axiosInstance
-        .post('/register', {
+  const handleRegister = async () => {
+    try {
+      if (addData()) {
+        console.log('Dữ liệu hợp lệ, tiến hành gửi yêu cầu đăng ký');
+        const axiosInstance = AxiosInstance();
+        const res = await axiosInstance.post('/register', {
           fullName: fullName,
           email: email,
           password: password,
           phoneNumber: phoneNumber,
-        })
-        .then(res => {
-          console.log('Nhận kết quả từ API:', res);
-
-          if (res && res.success === 'Đăng ký thành công!') {
-            console.log('Đăng ký thành công');
-            Alert.alert('Đăng ký thành công');
-            navigation.navigate('Login');
-          } else {
-            console.log('Đăng ký thất bại');
-            Alert.alert('Đăng ký thất bại');
-          }
-        })
-
-        .catch(err => {
-          console.log('Lỗi khi gửi yêu cầu đăng ký:', err);
-          Alert.alert('Đăng ký thất bại');
         });
-    } else {
-      console.log('Dữ liệu không hợp lệ, không thể gửi yêu cầu đăng ký');
+  
+        console.log( res.data);
+  
+        if (res && res.success === 'Đăng ký thành công!') {
+          console.log('Đăng ký thành công');
+          Alert.alert('Đăng ký thành công');
+          navigation.navigate('Login');
+        } else {
+          console.log('Đăng ký thất bại');
+          Alert.alert('Đăng ký thất bại');
+        }
+      } else {
+        console.log('Dữ liệu không hợp lệ, không thể đăng ký');
+      }
+    } catch (err) {
+      console.log('Lỗi khi đăng ký:', err);
+      Alert.alert('Đăng ký thất bại');
     }
   };
+  
 
   return (
     <KeyboardAwareScrollView>

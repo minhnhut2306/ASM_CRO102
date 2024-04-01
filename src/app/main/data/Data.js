@@ -5,7 +5,7 @@ export const sanpham = [
     id: 1,
     nameTree: 'Spider Plant',
     loai: 'Ưa bóng',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree1.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -16,7 +16,7 @@ export const sanpham = [
     id: 2,
     nameTree: 'Song of India',
     loai: 'Ưa sáng',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree2.png'),
     size: 'Lớn',
     origin: 'Châu Á',
@@ -27,7 +27,7 @@ export const sanpham = [
     id: 3,
     nameTree: 'Grey Star Calarthea ',
     loai: 'Ưa sáng',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree3.png'),
     size: 'Lớn',
     origin: 'Châu Phi',
@@ -38,7 +38,7 @@ export const sanpham = [
     id: 4,
     nameTree: 'Banana Plant ',
     loai: 'Ưa sáng',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree4.png'),
     size: 'Nhỏ',
     origin: 'Châu Nam Cực',
@@ -49,7 +49,7 @@ export const sanpham = [
     id: 5,
     nameTree: 'Song of India',
     loai: 'Ưa sáng',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree2.png'),
     size: 'Lớn',
     origin: 'Bắc Cực',
@@ -60,7 +60,7 @@ export const sanpham = [
     id: 6,
     nameTree: 'Grey Star Calarthea ',
     loai: 'Ưa sáng',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree3.png'),
     size: 'Nhỏ',
     origin: 'Châu Á',
@@ -73,7 +73,7 @@ export const chau = [
   {
     id: 1,
     nameTree: 'Planta Trắng ',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -83,7 +83,7 @@ export const chau = [
   {
     id: 2,
     nameTree: 'Planta Rosewood',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots2.png'),
     size: 'Nhỏ',
     origin: 'Châu Á',
@@ -93,7 +93,7 @@ export const chau = [
   {
     id: 3,
     nameTree: 'Planta Lemon Balm',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots1.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -103,7 +103,7 @@ export const chau = [
   {
     id: 4,
     nameTree: 'Bình tưới CB2 SAIC',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots4.png'),
     size: 'Nhỏ',
     origin: 'Châu Phi',
@@ -113,7 +113,7 @@ export const chau = [
   {
     id: 5,
     nameTree: 'Planta Dove Grey',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots3.png'),
     size: 'Nhỏ',
     origin: 'Châu Nam cực',
@@ -123,7 +123,7 @@ export const chau = [
   {
     id: 6,
     nameTree: 'Bộ cuốc xẻng mini',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots6.png'),
     size: 'Nhỏ',
     origin: 'Châu ÂU',
@@ -133,7 +133,7 @@ export const chau = [
   {
     id: 7,
     nameTree: 'Giá đỡ Finn Terrazzo ',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots7.png'),
     size: 'Nhỏ',
     origin: 'Châu Phi',
@@ -143,7 +143,7 @@ export const chau = [
   {
     id: 8,
     nameTree: 'Bình xịt Xiaoda  ',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots5.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -156,7 +156,7 @@ export const all = [
   {
     id: 1,
     nameTree: 'Bình tưới CB2 SAIC',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots4.png'),
     size: 'Nhỏ',
     origin: 'Châu Phi',
@@ -166,7 +166,7 @@ export const all = [
   {
     id: 2,
     nameTree: 'Bộ cuốc xẻng mini',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots6.png'),
     size: 'Nhỏ',
     origin: 'Châu ÂU',
@@ -176,7 +176,7 @@ export const all = [
   {
     id: 3,
     nameTree: 'Giá đỡ Finn Terrazzo ',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots7.png'),
     size: 'Nhỏ',
     origin: 'Châu Phi',
@@ -186,7 +186,7 @@ export const all = [
   {
     id: 4,
     nameTree: 'Bình xịt Xiaoda  ',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots5.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -196,7 +196,7 @@ export const all = [
   {
     id: 5,
     nameTree: 'Planta Trắng ',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -206,7 +206,7 @@ export const all = [
   {
     id: 6,
     nameTree: 'Planta Rosewood',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots2.png'),
     size: 'Nhỏ',
     origin: 'Châu Á',
@@ -216,7 +216,7 @@ export const all = [
   {
     id: 7,
     nameTree: 'Planta Lemon Balm',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots1.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -226,7 +226,7 @@ export const all = [
   {
     id: 8,
     nameTree: 'Planta Dove Grey',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/pots3.png'),
     size: 'Nhỏ',
     origin: 'Châu Nam cực',
@@ -237,7 +237,7 @@ export const all = [
     id: 9,
     nameTree: 'Spider Plant',
 
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree1.png'),
     size: 'Nhỏ',
     origin: 'Châu Mĩ',
@@ -248,7 +248,7 @@ export const all = [
     id: 10,
     nameTree: 'Song of India',
 
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree2.png'),
     size: 'Lớn',
     origin: 'Châu Á',
@@ -259,7 +259,7 @@ export const all = [
     id: 11,
     nameTree: 'Grey Star Calarthea ',
 
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree3.png'),
     size: 'Lớn',
     origin: 'Châu Phi',
@@ -270,7 +270,7 @@ export const all = [
     id: 12,
     nameTree: 'Banana Plant ',
 
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree4.png'),
     size: 'Nhỏ',
     origin: 'Châu Nam Cực',
@@ -281,7 +281,7 @@ export const all = [
     id: 13,
     nameTree: 'Song of India',
 
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree2.png'),
     size: 'Lớn',
     origin: 'Bắc Cực',
@@ -291,7 +291,7 @@ export const all = [
   {
     id: 14,
     nameTree: 'Grey Star Calarthea ',
-    mony: '250000',
+    mony: '250.000đ',
     image: require('../../../../assets/images/tree3.png'),
     size: 'Nhỏ',
     origin: 'Châu Á',
