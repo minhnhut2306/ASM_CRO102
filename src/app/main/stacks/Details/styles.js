@@ -24,6 +24,12 @@ export default styles = StyleSheet.create({
     height: '100%',
     position: 'relative',
   },
+  child: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    justifyContent: 'center',
+  },
   buttonContainer: {
     paddingHorizontal: 10,
     marginTop: '30%',
@@ -32,6 +38,8 @@ export default styles = StyleSheet.create({
   },
   contaisliderbox: {
     width: 337,
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 270,
     flexDirection: 'row',
     position: 'absolute',
@@ -262,7 +270,7 @@ export default styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   emptyText: {
-    width: 0, 
-    height: 0, 
+    width: 0,
+    height: 0,
   },
 });

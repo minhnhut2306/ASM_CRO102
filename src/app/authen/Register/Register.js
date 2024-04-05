@@ -10,7 +10,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import InputView from '../../multiComponent/InputView';
 import ButtonBig from '../../multiComponent/ButtonBig';
-import AxiosInstance from '../../api/AxiosInstance';
+import AxiosInstance from '../../api/helpers/AxiosInstance';
 import styles from './styles';
 
 const Register = ({navigation}) => {
@@ -43,7 +43,7 @@ const Register = ({navigation}) => {
     setPhoneNumberError('');
   };
 
-  const addData = () => {
+  const logData = () => {
     let isValid = true;
     if (fullName.trim() === '') {
       setFullNameError('Vui lòng nhập họ tên');
@@ -66,19 +66,17 @@ const Register = ({navigation}) => {
 
   const handleRegister = async () => {
     try {
-      if (addData()) {
+      if (logData()) {
         console.log('Dữ liệu hợp lệ, tiến hành gửi yêu cầu đăng ký');
         const axiosInstance = AxiosInstance();
-        const res = await axiosInstance.post('/register', {
+        const res = await axiosInstance.post('/registeruser', {
           fullName: fullName,
           email: email,
           password: password,
           phoneNumber: phoneNumber,
         });
-  
-        console.log( res.data);
-  
-        if (res && res.success === 'Đăng ký thành công!') {
+        console.log(res.data);
+        if (!res) {
           console.log('Đăng ký thành công');
           Alert.alert('Đăng ký thành công');
           navigation.navigate('Login');
@@ -94,7 +92,6 @@ const Register = ({navigation}) => {
       Alert.alert('Đăng ký thất bại');
     }
   };
-  
 
   return (
     <KeyboardAwareScrollView>

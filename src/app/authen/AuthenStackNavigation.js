@@ -5,7 +5,6 @@ import Login from './Login/Login';
 import Register from './Register/Register';
 import MainStackNavigation from '../main/MainStackNavigation';
 
-// import SplashScreen from './SplashScreen/SplashScreen'
 const Stack = createNativeStackNavigator();
 
 const AuthenStackNavigation = () => {

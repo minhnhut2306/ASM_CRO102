@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -5,58 +6,110 @@ import {
   View,
   Image,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
-import React, {useState} from 'react';
 import CustomHeader from '../../../multiComponent/CostomHeader';
-import {SliderBox} from 'react-native-image-slider-box';
 import {useNavigation} from '@react-navigation/native';
+import Swiper from 'react-native-swiper';
+import {useSelector, useDispatch} from 'react-redux';
+import {layIdproduct} from '../../../api/reducers/ProductIdSlice';
 import styles from './styles';
+import {addItemToCart} from '../../../api/reducers/CartSlice';
+
 const Productdetails = ({route}) => {
   const navigation = useNavigation();
-  const {name, image, type, mony, size, origin, status, product} = route.params;
   const [quantity, setQuantity] = useState(0);
-  const initialPrice = mony;
-  const [temporaryTotal, setTemporaryTotal] = useState(initialPrice);
+  const [temporaryTotal, setTemporaryTotal] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const appState = useSelector(state => state.app);
+  const dispatch = useDispatch();
+  const {productIdData, productIdStatus, error} = useSelector(
+    state => state.idproduct,
+  );
 
-  const handlePress = item => {
-    navigation.navigate('Cart', {
-      name: item.name,
-      image: item.image,
-      type: item.type,
-      mony: item.mony,
-      size: item.size,
-      origin: item.origin,
-      status: item.status,
-      product: item.product,
-    });
-  };
+  const {productId} = route.params;
 
-  // const images = [
-  //   'https://khuonmaucongcnc.com.vn/upload/images/cay-tai-loc.jpg',
-  //   // 'https://i0.wp.com/hapigo.vn/wp-content/uploads/2022/09/Optimized-chau-cay-canh.jpg',
-  //   // 'https://afamilycdn.com/2019/5/25/6116244723020600167876335959760434553683968o-15586804658031280324369-1558754708290704057746.jpg',
-  // ];
+  useEffect(() => {
+    dispatch(layIdproduct(productId));
+  }, [dispatch, productId]);
 
-  const images = [image];
+  console.log('Id', productId);
+  console.log(productIdStatus);
+  console.log('productIdData', productIdData);
+  if (productIdStatus === 'loading' || !productIdData) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (productIdStatus === 'failed') {
+    return <Text>Error: {error}</Text>;
+  }
 
   const handleLeftIconPress = () => {
     navigation.goBack();
   };
-
   const handleRightIconPress = () => {};
 
+  const {name, price, description, category, size, origin, status, image} =
+    productIdData;
+
+  console.log('name', name);
+  console.log('money', price);
+  console.log('description', description);
+  console.log('category', category);
+  console.log('size', size);
+  console.log('origin', origin);
+  console.log('status', status);
+  console.log('image', image);
+
+  const images = [image];
+  console.log('images', images);
+
   const updateTemporaryTotal = newQuantity => {
+    const initialPrice = productIdData?.price || 0;
     setTemporaryTotal(initialPrice * newQuantity);
   };
+
   const handleDecreaseQuantity = () => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
       updateTemporaryTotal(quantity - 1);
     }
   };
+
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
     updateTemporaryTotal(quantity + 1);
+  };
+
+  const goToNextImage = () => {
+    console.log('Go to next image');
+    console.log('Before update - selectedIndex:', selectedIndex);
+    setSelectedIndex(prevIndex => (prevIndex + 1) % images.length);
+    console.log('After update - selectedIndex:', selectedIndex);
+  };
+
+  const goToPreviousImage = () => {
+    console.log('Go to previous image');
+    console.log('Before update - selectedIndex:', selectedIndex);
+    setSelectedIndex(
+      prevIndex => (prevIndex - 1 + images.length) % images.length,
+    );
+    console.log('After update - selectedIndex:', selectedIndex);
+  };
+  const add = () => {
+    if (quantity <= 0) {
+      ToastAndroid.show('Hãy chọn số lượng sản phẩm', ToastAndroid.SHORT);
+      return;
+    }
+    const item = {
+      _id: productId,
+      quantity: quantity,
+    
+    };
+    console.log("Quantity",quantity)
+    dispatch(addItemToCart(item));
+    ToastAndroid.show('Đã thêm vào giỏ hàng', ToastAndroid.SHORT);
+    navigation.goBack();
   };
 
   return (
@@ -70,58 +123,61 @@ const Productdetails = ({route}) => {
           onPressRightIcon={handleRightIconPress}
         />
         <View style={styles.contentContainer}>
-          <View style={styles.contaisliderbox}>
-            {/* <SliderBox
-              images={images}
-              sliderBoxHeight={270}
-              sliderBoxWidth={337}
-              ImageComponentStyle={{
-                width: 337,
-                height: 270,
-                animationDuration: 5000,
-                position: 'relative',
-              }}
-              onCurrentImagePressed={index =>
-                console.warn(`image ${index} pressed`)
-              }
-              dotColor="#FF5733"
-              inactiveDotColor="#CCCCCC"
-              paginationBoxStyle={styles.paginationBoxStyle}
-              autoplayInterval={5000}
-              circleLoop
-              resizeMode="stretch"
-              resizeMethod="auto"
-              // currentImageEmitter={index => setCurrentImage(index)}
-            /> */}
-            {/* <Image
-              style={styles.headerimage}
-              source={image}
-              resizeMode="cover"
-            /> */}
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+            }}>
+            <View style={styles.contaisliderbox}>
+              <Swiper
+                autoplay={true}
+                autoplayTimeout={5}
+                autoplayLoop={true}
+                index={0}
+                showsPagination={true}>
+                {images.flat().map((imageUrl, index) => {
+                  console.log('imageUrl:', imageUrl);
+                  return (
+                    <View key={index}>
+                      <Image
+                        source={{uri: imageUrl}}
+                        style={{width: '100%', height: '100%'}}
+                      />
+                    </View>
+                  );
+                })}
+              </Swiper>
+            </View>
           </View>
           <View style={styles.buttonContainer}>
             <CustomHeader
               leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
               rightIcon={require('../../../../../assets/icons/chevron-right.png')}
+              onPressLeftIcon={goToNextImage}
+              onPressRightIcon={goToPreviousImage}
             />
           </View>
         </View>
         <View style={styles.contaibutontree}>
           <View style={styles.contentbuttontree}>
             <TouchableOpacity style={styles.bottontree}>
-              <Text style={styles.textbuttontree}>{product}</Text>
+              <Text style={styles.textbuttontree}>{description}</Text>
             </TouchableOpacity>
-            {type ? (
+            {category && category.name ? (
               <TouchableOpacity style={styles.bottontree}>
-                <Text style={styles.textbuttontree}>{type}</Text>
+                <Text style={styles.textbuttontree}>{category.name}</Text>
               </TouchableOpacity>
             ) : (
               <Text style={styles.emptyText}></Text>
             )}
           </View>
         </View>
+
         <View style={styles.contentext}>
-          <Text style={styles.mony}>{mony}</Text>
+          <Text style={styles.mony}>{price}</Text>
         </View>
         <View style={styles.contenchitiet}>
           <View style={styles.contaichitiet}>
@@ -185,14 +241,12 @@ const Productdetails = ({route}) => {
             <View>
               <Text style={styles.texttamtinh}>Tạm tính</Text>
               <View style={styles.contaitientamtinh}>
-                <Text style={styles.tientamtinh}>{temporaryTotal}đ</Text>
+                <Text style={styles.tientamtinh}>{temporaryTotal}</Text>
               </View>
             </View>
           </View>
           <View style={styles.contaibuttonchonmua}>
-            <TouchableOpacity
-              style={styles.buttonchonmua}
-              onPress={() => handlePress(route.params)}>
+            <TouchableOpacity style={styles.buttonchonmua} onPress={add}>
               <Text style={styles.textchonmua}>Chọn mua</Text>
             </TouchableOpacity>
           </View>

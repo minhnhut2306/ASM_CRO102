@@ -1,109 +1,110 @@
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import CustomHeader from '../../../multiComponent/CostomHeader';
 import CheckBox from '@react-native-community/checkbox';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { layIdproduct } from '../../../api/reducers/ProductIdSlice';
+import { changeQuantity } from '../../../api/reducers/CartSlice'; // Import changeQuantity action
 
-const Cart = ({route}) => {
+const Cart = ({ route }) => {
   const navigation = useNavigation();
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
-  const {name, image, type, mony, size, origin, status, product} =
-    route.params || {};
   const [quantity, setQuantity] = useState(0);
-  const initialPrice = mony;
-  const [temporaryTotal, setTemporaryTotal] = useState(initialPrice);
+  const dispatch = useDispatch();
+  const [temporaryTotal, setTemporaryTotal] = useState(0);
+  const cartItems = useSelector(state => state.cart);
+  console.log('cartItems', cartItems);
+  const { productIdData, productIdStatus, error } = useSelector(state => state.idproduct);
+  const [checkbox, setCheckbox] = useState(false);
+
+  useEffect(() => {
+    if (Array.isArray(cartItems)) { // Kiểm tra nếu cartItems là một mảng
+      let totalQuantity = 0;
+      cartItems.forEach(item => {
+        totalQuantity += item.quantity;
+      });
+      setQuantity(totalQuantity);
+    }
+  }, [cartItems]);
+  
+  
+  console.log("producData", productIdData);
+  console.log("quantityData", quantity)
+  
+
+  const initialPrice = productIdData?.money || 0;
 
   const handleLeftIconPress = () => {
     navigation.goBack();
   };
+
   const updateTemporaryTotal = newQuantity => {
     setTemporaryTotal(initialPrice * newQuantity);
   };
+
   const handleDecreaseQuantity = () => {
     if (quantity > 0) {
-      setQuantity(quantity - 1);
-      updateTemporaryTotal(quantity - 1);
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      updateTemporaryTotal(newQuantity);
+      dispatch(changeQuantity({ productId: productIdData._id, newQuantity: newQuantity })); 
     }
   };
+
   const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
-    updateTemporaryTotal(quantity + 1);
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    updateTemporaryTotal(newQuantity);
+    dispatch(changeQuantity({ productId: productIdData._id, newQuantity: newQuantity }));
   };
-  return (
-    <View style={styles.container}>
-      {name && image && mony && size && origin && status && product ? (
-        <CustomHeader
-          leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
-          title={name}
-          rightIcon={require('../../../../../assets/icons/trash.png')}
-          onPressLeftIcon={handleLeftIconPress}
-        />
-      ) : (
-        <CustomHeader
-          leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
-          onPressLeftIcon={handleLeftIconPress}
-        />
-      )}
-      {name && image && mony && size && origin && status && product ? (
-        <View style={{width: '100%', height: '100%'}}>
-          <View style={styles.contaisanpham}>
-            <View style={styles.contentsp}>
-              <CheckBox
-                style={styles.checkbox}
-                disabled={false}
-                value={toggleCheckBox}
-                onValueChange={newValue => setToggleCheckBox(newValue)}
-              />
-              <Image style={styles.imagesp} source={image} />
-              <View style={styles.contaitextsp}>
-                <View style={{flexDirection: 'row', width: '100%'}}>
-                  <Text style={styles.textnametree}>{name}</Text>
-                  <Text style={{color: 'black'}}> | </Text>
-                  <Text style={styles.textprice}>{type}</Text>
-                </View>
-                <Text style={styles.price}>{temporaryTotal}</Text>
-                <View style={styles.contaisquare}>
-                  <TouchableOpacity
-                    style={styles.buttonsquare1}
-                    onPress={handleDecreaseQuantity}>
-                    <Image
-                      source={require('../../../../../assets/icons/minus-square.png')}
-                      style={styles.iconsquare1}
-                    />
-                  </TouchableOpacity>
-                  <View style={styles.contaitextsquare}>
-                    <Text style={styles.textsquare}>{quantity}</Text>
-                  </View>
-                  <TouchableOpacity
-                    style={styles.buttonsquare1}
-                    onPress={handleIncreaseQuantity}>
-                    <Image
-                      source={require('../../../../../assets/icons/plus-square.png')}
-                      style={styles.iconsquare}
-                    />
-                  </TouchableOpacity>
-                  <Text style={styles.delete}>Xóa</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View style={styles.buttonthanhtoan}>
-            <View style={styles.contentamtinh}>
-              <Text style={styles.texttamtinh}>Tạm tính</Text>
-              <Text style={styles.texttien}>500.000đ</Text>
-            </View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('Payment')}>
-              <View style={styles.contenbton}>
-                <Text style={styles.textchonmua}>Tiến hành thanh toán</Text>
-                <Image
-                  style={styles.iconchonmua}
-                  source={require('../../../../../assets/icons/right-arrow.png')}></Image>
-              </View>
+
+  const handleCheckbox = () => {
+    setCheckbox(!checkbox);
+  };
+
+  const firstImage = productIdData?.image && productIdData.image.length > 0 ? productIdData.image[0] : null;
+
+  const renderItemCart = ({ item }) => (
+    <View>
+      <View style={{ flexDirection: 'row', paddingHorizontal: 25, paddingTop: 10, height: 107 }}>
+        <TouchableOpacity onPress={handleCheckbox}>
+          <Image
+            style={{ marginVertical: 35, marginRight: 28 }}
+            source={CheckBox === false ? require('../../../../../assets/icons/checkchuachon.png') : require('../../../../../assets/icons/checkdachon.png')}
+          />
+        </TouchableOpacity>
+        <Image style={styles.image} source={{ uri: `${firstImage}` }} />
+        <View>
+          <Text style={{ fontWeight: '500', fontSize: 16 }} numberOfLines={1}>{item.name}</Text>
+          <Text style={{ color: '#007537', fontSize: 16, fontWeight: '500' }}>{item.price}đ</Text>
+          <View style={{ flexDirection: 'row', marginTop: 13 }}>
+            <TouchableOpacity style={{ width: 20, height: 20, borderWidth: 2, borderRadius: 5, alignItems: 'center' }} onPress={handleDecreaseQuantity}>
+              <Text>-</Text>
+            </TouchableOpacity>
+            <Text style={{ marginHorizontal: 18, color: 'black' }}>{item.quantity}</Text>
+            <TouchableOpacity style={{ width: 20, height: 20, borderWidth: 2, borderRadius: 5, alignItems: 'center' }} onPress={handleIncreaseQuantity}>
+              <Text>+</Text>
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <CustomHeader
+        leftIcon={require('../../../../../assets/icons/chevronleft.jpg')}
+        title={productIdData?.name || ''}
+        rightIcon={require('../../../../../assets/icons/trash.png')}
+        onPressLeftIcon={handleLeftIconPress}
+      />
+      {productIdData ? (
+        <FlatList
+          data={[productIdData]}
+          renderItem={renderItemCart}
+          keyExtractor={(item, index) => index.toString()}
+        />
       ) : (
         <View style={styles.container2}>
           <Text style={styles.textthongbao}>Chưa có sản phẩm được chọn</Text>
@@ -117,14 +118,11 @@ export default Cart;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
     backgroundColor: '#fff',
   },
   container2: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#fff',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -135,181 +133,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins',
     fontWeight: '700',
   },
-  contaisanpham: {
-    width: '100%',
-    height: 107,
-  },
-  contentsp: {
-    width: '100%',
-    height: 107,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  checkbox: {
-    paddingVertical: 44,
-    paddingHorizontal: 24,
-    width: 20,
-    marginLeft: 20,
-    height: 20,
-  },
-  imagesp: {
+  image: {
     width: 77,
     height: 77,
-    borderRadius: 8,
-  },
-  contaitextsp: {
-    width: 199,
-    height: 62,
-    flexDirection: 'column',
-    flexShrink: 0,
-  },
-  contaisquare: {
-    width: 'auto',
-    height: 'auto',
-    display: 'flex',
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    marginTop: 13,
-  },
-  iconsquare: {
-    width: 30,
-    height: 30,
-    flexShrink: 0,
-  },
-  contaitextsquare: {
-    display: 'flex',
-    width: 8,
-    height: 30,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  textsquare: {
-    lineHeight: 20,
-    fontSize: 14,
-    fontWeight: '400',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#000',
-    textAlign: 'center',
-  },
-  textnametree: {
-    lineHeight: 20,
-    fontSize: 16,
-    fontWeight: '500',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#000',
-    textAlign: 'center',
-  },
-  textprice: {
-    lineHeight: 20,
-    fontSize: 14,
-    fontWeight: '400',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#7D7B7B',
-    textAlign: 'center',
-  },
-  price: {
-    lineHeight: 22,
-    fontSize: 16,
-    fontWeight: '500',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#007537',
-    marginTop: 5,
-  },
-  iconsquare: {
-    width: 25,
-    height: 25,
-    flexShrink: 0,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  iconsquare1: {
-    width: 25,
-    height: 25,
-    flexShrink: 0,
-    marginRight: 10,
-  },
-  delete: {
-    lineHeight: 20,
-    fontSize: 16,
-    fontWeight: '500',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#000',
-    textAlign: 'center',
-    marginLeft: 38,
-  },
-  buttonsquare1: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonthanhtoan: {
-    width: '100%',
-    height: 'auto',
-    flexDirection: 'column',
-    top: '60%',
-    alignItems: 'center',
-  },
-  contentamtinh: {
-    width: 326,
-    height: 43,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  contenbton: {
-    width: '100%',
-    height: 50,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-  },
-
-  texttamtinh: {
-    lineHeight: 20,
-    fontSize: 14,
-    fontWeight: '400',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#000',
-  },
-  texttien: {
-    lineHeight: 20,
-    fontSize: 14,
-    fontWeight: '400',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#000',
-    textAlign: 'right',
-  },
-
-  button: {
-    backgroundColor: '#007537',
-    borderRadius: 8,
-    width: 326,
-    alignItems: 'center',
-    height: 50,
-  },
-  textchonmua: {
-    lineHeight: 20,
-    fontSize: 16,
-    fontWeight: '500',
-    fontFamily: 'Lato',
-    fontStyle: 'normal',
-    color: '#fff',
-  },
-  iconchonmua: {
-    width: 20,
-    height: 20,
-    flexShrink: 0,
+    backgroundColor: '#F6F6F6',
+    borderRadius: 5,
+    marginRight: 15,
   },
 });

@@ -1,42 +1,43 @@
-
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+
 const SectionView = ({title, data}) => {
   const navigation = useNavigation();
-  const handlePress = item => {
-    navigation.navigate('Productdetails', {
-      name: item.nameTree,
-      image: item.image,
-      type : item.loai,
-      mony: item.mony,
-      size : item.size,
-      origin: item.origin,
-      status : item.status,
-      product : item.product,
-    });
-  };
-  const renderColumn = columnData => {
+  function handlePress(itemId) {
+    navigation.navigate('Productdetails', { productId: itemId });
+    console.log("productid", itemId);
+  }
+  function renderColumn(columnData) {
+    if (!columnData) return null;
     return columnData.map((item, index) => {
+      const firstImage =
+        item.image && item.image.length > 0 ? item.image[0] : null;
+        console.log('firstImage', firstImage);
       return (
-        <TouchableOpacity key={index} style={styles.itemContainer}  onPress={() => handlePress(item)}>
+        <TouchableOpacity
+          key={index}
+          style={styles.itemContainer}
+          onPress={() => handlePress(item._id)}>
           <View style={styles.contaimage}>
             <View style={styles.overlay} />
-            <Image style={styles.image} source={item.image} />
+            <Image style={styles.image} source={{uri: firstImage}} />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.texttencay}>{item.nameTree}</Text>
-            {item.loai ? (<Text style={styles.textloai}>{item.loai}</Text> ) : 
-            ( <Text style={styles.emptyText}></Text>)}
-            <Text style={styles.texttien}>{item.mony}</Text>
+            <Text style={styles.texttencay}>{item.name}</Text>
+            {item.description ? (
+              <Text style={styles.textloai}>{item.description}</Text>
+            ) : null}
+            <Text style={styles.texttien}>{item.price}</Text>
           </View>
         </TouchableOpacity>
       );
     });
-  };
+  }
+
   const halfLength = Math.ceil(data.length / 2);
-  const column1Data = data.slice(0, halfLength);
-  const column2Data = data.slice(halfLength);
+  const column1Data = data ? data.slice(0, halfLength) : [];
+  const column2Data = data ? data.slice(halfLength) : [];
 
   return (
     <View style={styles.container}>
@@ -75,18 +76,19 @@ const styles = StyleSheet.create({
     marginRight: 25,
   },
   contaimage: {
-    width: 145,
-    height: 124,
+    width: 140,
+    height: 134,
     position: 'relative',
   },
   image: {
+    borderRadius: 20,
     width: '100%',
     height: '100%',
     position: 'absolute',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'lightgray',
+    backgroundColor: 'white',
     opacity: 0.5,
   },
   textContainer: {
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
     color: '#007537',
   },
   emptyText: {
-    width: 0, 
-    height: 5, 
+    width: 0,
+    height: 5,
   },
 });

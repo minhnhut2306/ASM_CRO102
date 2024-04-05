@@ -57,10 +57,10 @@ const MainStackNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="MainTabNavigation" component={MainTabNavigation} />
-      <Stack.Screen name="Seemore" component={Seemore} />
+      {/* <Stack.Screen name="Seemore" component={Seemore} /> */}
       <Stack.Screen name="Productdetails" component={Productdetails} />
       <Stack.Screen name="Cart" component={Cart} />
-      <Stack.Screen name="Seemreall" component={Seemreall} />
+      {/* <Stack.Screen name="Seemreall" component={Seemreall} /> */}
       <Stack.Screen name="Payment" component={Payment} />
       <Stack.Screen name="EditInformation" component={EditInformation} />
       <Stack.Screen name="Question" component={Question} />

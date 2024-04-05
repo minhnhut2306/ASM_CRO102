@@ -13,7 +13,7 @@ import {AppContext} from '../../main/AppContext';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import InputView from '../../multiComponent/InputView';
 import ButtonBig from '../../multiComponent/ButtonBig';
-import AxiosInstance from '../../api/AxiosInstance';
+import AxiosInstance from '../../api/helpers/AxiosInstance';
 import styles from './styles';
 
 const Login = props => {
@@ -53,51 +53,29 @@ const Login = props => {
     return isValid;
   };
   console.log(addData);
-const handleLogin = async () => {
-  if (addData()) {
-    const axiosInstance = AxiosInstance();
-    try {
-      if (/\S+@\S+\.\S+/.test(email)) {
-        const userRes = await axiosInstance.post('/login', {
+  const handleLogin = async () => {
+    if (addData()) {
+      const axiosInstance = AxiosInstance();
+      try {
+        const userRes = await axiosInstance.post('/loginuser', {
           email: email,
           password: password,
         });
-        console.log( userRes.data);
+        console.log(userRes.data);
 
-        if (userRes && userRes.success === 'Đăng nhập thành công') {
-          console.log('Đăng nhập thành công');
-          Alert.alert('Đăng nhập thành công bạn đang đăng nhập với tư cách user');
+        if (userRes && userRes.success === 'Đăng nhập thành công!') {
+          Alert.alert('Đăng nhập thành công');
           navigation.navigate('MainStackNavigation');
         } else {
-          console.log('Đăng nhập thất bại');
           Alert.alert('Đăng nhập thất bại');
         }
-      } else {
-        const adminRes = await axiosInstance.post('/loginAdmin', {
-          username: email,
-          password: password,
-        });
-        console.log( adminRes.data);
-
-        if (adminRes && adminRes.message === 'Đăng nhập thành công') {
-          console.log('Đăng nhập thành công');
-          Alert.alert('Đăng nhập thành công bạn đang đăng nhập với tư cách admin');
-          navigation.navigate('MainStackNavigation');
-        } else {
-          console.log('Đăng nhập thất bại');
-          Alert.alert('Đăng nhập thất bại');
-        }
+      } catch (err) {
+        Alert.alert('Đăng nhập thất bại');
       }
-    } catch (err) {
-      console.log('Lỗi khi gửi yêu cầu đăng nhập:', err);
-      Alert.alert('Đăng nhập thất bại');
+    } else {
+      console.log('Không thể đăng nhập');
     }
-  } else {
-    console.log('Không thể đăng nhập');
-  }
-};
-
-
+  };
 
   return (
     <KeyboardAwareScrollView>
