@@ -5,15 +5,19 @@ import {useNavigation} from '@react-navigation/native';
 const SectionView = ({title, data}) => {
   const navigation = useNavigation();
   function handlePress(itemId) {
-    navigation.navigate('Productdetails', { productId: itemId });
-    console.log("productid", itemId);
+    navigation.navigate('Productdetails', {productId: itemId});
+    console.log('productid', itemId);
   }
   function renderColumn(columnData) {
     if (!columnData) return null;
     return columnData.map((item, index) => {
       const firstImage =
         item.image && item.image.length > 0 ? item.image[0] : null;
-        console.log('firstImage', firstImage);
+      console.log('firstImage', firstImage);
+      const formattedPrice = Number(item.price).toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+      });
       return (
         <TouchableOpacity
           key={index}
@@ -28,7 +32,7 @@ const SectionView = ({title, data}) => {
             {item.description ? (
               <Text style={styles.textloai}>{item.description}</Text>
             ) : null}
-            <Text style={styles.texttien}>{item.price}</Text>
+            <Text style={styles.texttien}>{formattedPrice}</Text>
           </View>
         </TouchableOpacity>
       );

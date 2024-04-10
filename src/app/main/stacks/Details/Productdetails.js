@@ -16,19 +16,20 @@ import {layIdproduct} from '../../../api/reducers/ProductIdSlice';
 import styles from './styles';
 import {addItemToCart} from '../../../api/reducers/CartSlice';
 
+
 const Productdetails = ({route}) => {
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(0);
   const [temporaryTotal, setTemporaryTotal] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const userId = useSelector(state => state.cart.user);
+  console.log('userId: ' + userId);
   const appState = useSelector(state => state.app);
   const dispatch = useDispatch();
   const {productIdData, productIdStatus, error} = useSelector(
     state => state.idproduct,
   );
-
   const {productId} = route.params;
-
   useEffect(() => {
     dispatch(layIdproduct(productId));
   }, [dispatch, productId]);
@@ -82,20 +83,22 @@ const Productdetails = ({route}) => {
   };
 
   const goToNextImage = () => {
-    console.log('Go to next image');
-    console.log('Before update - selectedIndex:', selectedIndex);
     setSelectedIndex(prevIndex => (prevIndex + 1) % images.length);
-    console.log('After update - selectedIndex:', selectedIndex);
   };
-
+  
   const goToPreviousImage = () => {
-    console.log('Go to previous image');
-    console.log('Before update - selectedIndex:', selectedIndex);
-    setSelectedIndex(
-      prevIndex => (prevIndex - 1 + images.length) % images.length,
-    );
-    console.log('After update - selectedIndex:', selectedIndex);
+    setSelectedIndex(prevIndex => (prevIndex - 1 + images.length) % images.length);
+   
   };
+  const formattedPrice = Number(price).toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  });
+  const formattemprory = Number(temporaryTotal).toLocaleString('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  });
+
   const add = () => {
     if (quantity <= 0) {
       ToastAndroid.show('Hãy chọn số lượng sản phẩm', ToastAndroid.SHORT);
@@ -104,11 +107,11 @@ const Productdetails = ({route}) => {
     const item = {
       _id: productId,
       quantity: quantity,
-    
     };
-    console.log("Quantity",quantity)
+    console.log('Quantity', quantity);
     dispatch(addItemToCart(item));
     ToastAndroid.show('Đã thêm vào giỏ hàng', ToastAndroid.SHORT);
+    console.log('sản phẩm', item);
     navigation.goBack();
   };
 
@@ -177,7 +180,7 @@ const Productdetails = ({route}) => {
         </View>
 
         <View style={styles.contentext}>
-          <Text style={styles.mony}>{price}</Text>
+          <Text style={styles.mony}>{formattedPrice}</Text>
         </View>
         <View style={styles.contenchitiet}>
           <View style={styles.contaichitiet}>
@@ -241,7 +244,7 @@ const Productdetails = ({route}) => {
             <View>
               <Text style={styles.texttamtinh}>Tạm tính</Text>
               <View style={styles.contaitientamtinh}>
-                <Text style={styles.tientamtinh}>{temporaryTotal}</Text>
+                <Text style={styles.tientamtinh}>{formattemprory}</Text>
               </View>
             </View>
           </View>

@@ -77,12 +77,13 @@ const Register = ({navigation}) => {
         });
         console.log(res.data);
         if (!res) {
+          console.log('Đăng ký thất bại');
+          Alert.alert('Đăng ký thất bại');
+        } else {
+         
           console.log('Đăng ký thành công');
           Alert.alert('Đăng ký thành công');
           navigation.navigate('Login');
-        } else {
-          console.log('Đăng ký thất bại');
-          Alert.alert('Đăng ký thất bại');
         }
       } else {
         console.log('Dữ liệu không hợp lệ, không thể đăng ký');

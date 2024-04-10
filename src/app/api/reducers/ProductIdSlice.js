@@ -29,11 +29,11 @@ const productidSlice = createSlice({
       .addCase(layIdproduct.fulfilled, (state, action) => {
         state.productIdStatus = 'succeeded';
         state.productIdData = action.payload;
-        state.error = null; // Clear error if successful
+        state.error = null; 
       })
       .addCase(layIdproduct.rejected, (state, action) => {
         state.productIdStatus = 'failed';
-        state.error = action.error.message; // Set error message
+        state.error = action.error.message;
       });
   },
 });

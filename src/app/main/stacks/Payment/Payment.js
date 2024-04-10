@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -5,27 +6,109 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
-import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
+import {addItemPayment, clearCart} from '../../../api/reducers/CartSlice';
 import CustomHeader from '../../../multiComponent/CostomHeader';
 import CheckBox from '@react-native-community/checkbox';
-import {Dropdown} from 'react-native-element-dropdown';
-import {useNavigation} from '@react-navigation/native';
+import {layIdproduct} from '../../../api/reducers/ProductIdSlice';
+import AxiosInstance from '../../../api/helpers/AxiosInstance';
 
-const Payment = ({route}) => {
+const Payment = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cart.cart);
+  const user = useSelector(state => state.cart.user);
+
+  const [productIdData, setProductIdData] = useState({});
+  const [address, setAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [giaohangnhanh, setGiaohangnhanh] = useState(false);
   const [GiaohangCOD, setGiaohangCOD] = useState(false);
-  const [giaohangnhanh, setgiaohangnhanh] = useState(false);
-  const [thanhtoanthe, setthanhtoanthe] = useState(false);
-  // const [selectedItem, setSelectedItem] = useState(null);
-  // const data = [
-  //   {label: 'Thanh toán bằng tiền mặt', value: 'item1'},
-  //   {label: 'Thanh toán bằng Thẻ VISA/MASTERCARD', value: 'item2'},
-  //   {label: 'Thanh toán bằng momo', value: 'item3'},
-  // ];
-  // const dropdownStyle = {
-  //   color: 'black',
-  // };
+  const [thanhtoanthe, setThanhtoanthe] = useState(false);
+
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      if (cartItems && cartItems.length > 0) {
+        const productDetails = {};
+
+        for (const item of cartItems) {
+          const productId = item._id;
+
+          try {
+            const response = await dispatch(layIdproduct(productId));
+
+            if (response.payload) {
+              productDetails[productId] = response.payload;
+            }
+          } catch (error) {
+            console.error(
+              `Error fetching product data for productId: ${productId}`,
+              error,
+            );
+          }
+        }
+
+        setProductIdData(productDetails);
+      }
+    };
+
+    fetchProductDetails();
+  }, [dispatch, cartItems]);
+
+  const calculateTotalAmount = () => {
+    let totalAmount = 0;
+
+    for (const item of cartItems) {
+      const product = productIdData[item._id];
+      if (product) {
+        totalAmount += product.price * item.quantity;
+      }
+    }
+
+    return totalAmount;
+  };
+
+  const handleAddressChange = text => {
+    setAddress(text);
+  };
+
+  const handlePhoneNumberChange = text => {
+    setPhoneNumber(text);
+  };
+
+  const handlePayment = async () => {
+    if (!address || !phoneNumber) {
+      ToastAndroid.show('Vui lòng nhập đầy đủ thông tin', ToastAndroid.SHORT);
+      return;
+    }
+    const shippingFee = giaohangnhanh ? 15000 : 30000;
+    const totalAmount = calculateTotalAmount() + shippingFee;
+
+    const orderData = {
+      userId: user,
+      products: cartItems.map(item => ({
+        productId: item.productId,
+        qty: item.quantity,
+      })),
+      status: 'Pending',
+    };
+
+    try {
+      const axiosInstance = AxiosInstance();
+      const response = await axiosInstance.post('/bills', orderData);
+      console.log('Saved order:', response);
+      dispatch(addItemPayment(orderData));
+      dispatch(clearCart());
+      ToastAndroid.show('Thanh toán thành công', ToastAndroid.SHORT);
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      ToastAndroid.show('Thanh toán thất bại', ToastAndroid.SHORT);
+    }
+  };
   return (
     <ScrollView style={styles.container}>
       <CustomHeader
@@ -33,120 +116,78 @@ const Payment = ({route}) => {
         title={'THANH TOÁN'}
       />
       <View style={styles.containerinformation}>
-        <View style={styles.contentinformation}>
-          <Text style={styles.textinformation}>Thông tin khách hàng</Text>
-          <View style={styles.line} />
-        </View>
-        <View style={styles.contentinformation}>
-          <Text style={styles.textinformationname}>Nguyễn Minh Nhựt</Text>
-          <View style={styles.linename} />
-        </View>
-        <View style={styles.contentinformation}>
-          <Text style={styles.textinformationname}>
-            nhutchodiennguyen2306@gmail.com
-          </Text>
-          <View style={styles.linename} />
-        </View>
-        <View style={styles.contentinformation}>
-          <TextInput style={[styles.input, {}]} placeholder="Địa chỉ" />
-        </View>
-        <View style={styles.contentinformation}>
-          <TextInput style={[styles.input, {}]} placeholder="Số điện thoại" />
-        </View>
+        <Text style={styles.textinformationname}>Nguyễn Minh Nhựt</Text>
+        <Text style={styles.textinformationname}>
+          nhutchodiennguyen2306@gmail.com
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Địa chỉ"
+          value={address}
+          onChangeText={handleAddressChange}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Số điện thoại"
+          value={phoneNumber}
+          onChangeText={handlePhoneNumberChange}
+        />
       </View>
       <View style={styles.containerinformation}>
-        <View style={styles.contentinformation}>
-          <Text style={styles.textinformation}>Phương thức vận chuyển</Text>
-          <View style={styles.line} />
-        </View>
-        <View style={styles.contentinformation}>
-          <View style={styles.contenshippingmethod}>
-            <View>
-              <Text style={[{...styles.textinformationname, color: '#007537'}]}>
-                Giao hàng nhanh - 15000đ
-              </Text>
-              <Text style={styles.textinformationname}>
-                Dự kiến nhận hàng 5-7/4
-              </Text>
-            </View>
-            <CheckBox
-              style={styles.checkbox}
-              disabled={false}
-              value={giaohangnhanh}
-              tintColors={{true: '#007537', false: 'transparent'}}
-              onValueChange={newValue => setgiaohangnhanh(newValue)}
-            />
-          </View>
-          <View style={styles.linename} />
-        </View>
-        <View style={styles.contentinformation}>
-          <View style={styles.contenshippingmethod}>
-            <View>
-              <Text style={[{...styles.textinformationname, color: '#221F1F'}]}>
-                Giao hàng nhanh - 15000đ
-              </Text>
-              <Text style={styles.textinformationname}>
-                Dự kiến nhận hàng 4-8/4{' '}
-              </Text>
-            </View>
-            <CheckBox
-              style={styles.checkbox}
-              disabled={false}
-              value={GiaohangCOD}
-              tintColors={{true: '#007537', false: 'transparent'}}
-              onValueChange={newValue => setGiaohangCOD(newValue)}
-            />
-          </View>
-          <View style={styles.linename} />
-        </View>
-      </View>
-      <View style={styles.containerinformation}>
-        <View style={styles.contentinformation}>
-          <Text style={styles.textinformation}>
-            Hình thức thanh toán thanh toán
-          </Text>
-          <View style={styles.line} />
-        </View>
-        {/* <Text style={styles.Textdropdown}>Selected Item: {selectedItem}</Text>
-        <Dropdown
-          style={[styles.dropdown, dropdownStyle]}
-          data={data}
-          placeholder="Phương thức thanh toán"
-          onChange={(index, value) => setSelectedItem(value)}
-          textColor={'black'}
-        /> */}
+        <Text style={styles.textinformation}>Phương thức vận chuyển</Text>
         <View style={styles.contenshippingmethod}>
-          <View>
-            <Text style={[styles.textinformationname, {color: '#007537'}]}>
-              Thẻ VISA/MASTERCARD
-            </Text>
-          </View>
+          <Text style={styles.textinformationname}>
+            Giao hàng nhanh - 15000đ
+          </Text>
           <CheckBox
-            style={styles.checkbox}
+            disabled={false}
+            value={giaohangnhanh}
+            onValueChange={newValue => setGiaohangnhanh(newValue)}
+          />
+        </View>
+        <View style={styles.contenshippingmethod}>
+          <Text style={styles.textinformationname}>
+            Giao hàng thường - 30000đ
+          </Text>
+          <CheckBox
+            disabled={false}
+            value={GiaohangCOD}
+            onValueChange={newValue => setGiaohangCOD(newValue)}
+          />
+        </View>
+      </View>
+      <View style={styles.containerinformation}>
+        <Text style={styles.textinformation}>Hình thức thanh toán</Text>
+        <View style={styles.contenshippingmethod}>
+          <Text style={styles.textinformationname}>Thẻ VISA/MASTERCARD</Text>
+          <CheckBox
             disabled={false}
             value={thanhtoanthe}
-            tintColors={{true: '#007537', false: 'transparent'}}
-            onValueChange={newValue => setthanhtoanthe(newValue)}
+            onValueChange={newValue => setThanhtoanthe(newValue)}
           />
         </View>
       </View>
       <View style={styles.containerthanhtoan}>
         <View style={styles.contentthanhtoan}>
           <Text style={styles.texttamtinh}>Tạm tính</Text>
-          <Text style={styles.texttamtinh}>500.000đ</Text>
+          <Text style={styles.texttamtinh}>{calculateTotalAmount()}</Text>
         </View>
         <View style={styles.contentthanhtoan}>
           <Text style={styles.texttamtinh}>Phí vận chuyển</Text>
-          <Text style={styles.texttamtinh}>15.000đ</Text>
+          <Text style={styles.texttamtinh}>
+            {giaohangnhanh ? '15.000đ' : '30.000đ'}
+          </Text>
         </View>
         <View style={styles.contentthanhtoan}>
           <Text style={styles.texttamtinh}>Tổng cộng</Text>
-          <Text style={styles.texttamtinh}>515.000đ</Text>
+          <Text style={styles.texttamtinh}>
+            {calculateTotalAmount() + (giaohangnhanh ? 15000 : 30000)}đ
+          </Text>
         </View>
         <View style={styles.contaibuttonchonmua}>
           <TouchableOpacity
             style={styles.buttonchonmua}
-            onPress={() => navigation.navigate("MainTabNavigation")}>
+            onPress={handlePayment}>
             <Text style={styles.textchonmua}>Thanh Toán</Text>
           </TouchableOpacity>
         </View>
@@ -154,9 +195,6 @@ const Payment = ({route}) => {
     </ScrollView>
   );
 };
-
-export default Payment;
-
 const styles = StyleSheet.create({
   container: {
     width: '100%',
@@ -303,3 +341,5 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
 });
+
+export default Payment;

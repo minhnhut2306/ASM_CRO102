@@ -15,19 +15,22 @@ import InputView from '../../multiComponent/InputView';
 import ButtonBig from '../../multiComponent/ButtonBig';
 import AxiosInstance from '../../api/helpers/AxiosInstance';
 import styles from './styles';
+import {useDispatch} from 'react-redux';
+import {login} from '../../api/reducers/CartSlice';
 
 const Login = props => {
   const {navigation} = props;
   const {isLogin, setIsLogin} = useContext(AppContext);
   const [rememnerMe, setRememberMe] = useState(false);
+  const dispatch = useDispatch();
+
   const changeRemember = () => {
     setRememberMe(!rememnerMe);
   };
-  // normal
+
   const [username, setusername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // error
   const [emailerror, setEmailError] = useState('');
   const [passworderror, setPasswordError] = useState('');
 
@@ -40,6 +43,7 @@ const Login = props => {
     setPassword(data);
     setPasswordError('');
   };
+
   const addData = () => {
     let isValid = true;
     if (email.trim() === '') {
@@ -52,7 +56,7 @@ const Login = props => {
     }
     return isValid;
   };
-  console.log(addData);
+
   const handleLogin = async () => {
     if (addData()) {
       const axiosInstance = AxiosInstance();
@@ -61,16 +65,20 @@ const Login = props => {
           email: email,
           password: password,
         });
-        console.log(userRes.data);
-
+        console.log('Dữ liệu trả về từ server:', userRes);
         if (userRes && userRes.success === 'Đăng nhập thành công!') {
           Alert.alert('Đăng nhập thành công');
+          const userId = userRes.userId; 
+          Alert.alert('Đăng nhập thành công');
+          dispatch(login(userId));
+          console.log('ID của người dùng:', userId);
           navigation.navigate('MainStackNavigation');
         } else {
           Alert.alert('Đăng nhập thất bại');
         }
       } catch (err) {
-        Alert.alert('Đăng nhập thất bại');
+        Alert.alert('Lỗi đăng nhập');
+        console.log(err);
       }
     } else {
       console.log('Không thể đăng nhập');

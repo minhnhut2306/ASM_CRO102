@@ -18,6 +18,18 @@ const appSlice = createSlice({
         state.cart.push(action.payload);
       }
     },
+    addItemPayment: (state, action) => {
+      const { _id, quantity, total } = action.payload;
+      const existingItemIndex = state.cart.findIndex(item => item._id === _id);
+      if (existingItemIndex !== -1) {
+        state.cart[existingItemIndex].quantity += quantity;
+      } else {
+        state.cart.push(action.payload);
+      }
+    },
+    
+    
+    
     changeQuantity: (state, action) => {
       const { productId, newQuantity } = action.payload;
       const index = state.cart.findIndex(item => item._id === productId);
@@ -29,10 +41,14 @@ const appSlice = createSlice({
     clearCart: (state, action) => {
       state.cart = [];
     },
+    
 
     removeItemFromCart: (state, action) => {
       const productId = action.payload.productId;
       state.cart = state.cart.filter(item => item._id !== productId);
+    }, 
+    login: (state, action) => {
+      state.user = action.payload; 
     },
 
     logout: (state, action) => {
@@ -46,6 +62,8 @@ export const {
   logout,
   changeQuantity,
   removeItemFromCart,
+  login,
+  addItemPayment,
   clearCart,
 } = appSlice.actions;
 export default appSlice.reducer;

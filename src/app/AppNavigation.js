@@ -9,7 +9,7 @@ const AppNavigation = () => {
   const {isLogin} = useContext(AppContext);
   return (
     <NavigationContainer>
-      { <MainStackNavigation />}
+      { <AuthenStackNavigation />}
     </NavigationContainer>
   );
 };
